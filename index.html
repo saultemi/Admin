@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · Saul Captures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #faf8f4; --bg2: #f3ede4; --card: #ffffff;
+      --border: #e2d9cc; --border2: #cfc4b4;
+      --gold: #a8792e; --goldh: #c4963e;
+      --ink: #1e1a15; --body: #3d3630; --muted: #8a7e72;
+      --green: #3a7d44; --greenl: #edf7ef;
+      --fd: 'Cinzel', serif; --fu: 'Jost', sans-serif; --fb: 'Cormorant Garamond', serif;
+    }
+    html, body { height: 100%; }
+    body { background: var(--bg); color: var(--body); font-family: var(--fu); font-size: 14px; line-height: 1.6; }
+
+    /* PIN */
+    #pin-screen { position: fixed; inset: 0; z-index: 999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 40px 24px; }
+    .pin-logo { font-family: var(--fd); font-size: 1.1rem; letter-spacing: .2em; color: var(--ink); text-align: center; }
+    .pin-logo span { color: var(--gold); }
+    .pin-subtitle { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 4px; }
+    .pin-dots { display: flex; gap: 14px; }
+    .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border2); background: transparent; transition: background .2s; }
+    .pin-dot.filled { background: var(--gold); border-color: var(--gold); }
+    .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 12px; }
+    .pin-key { height: 72px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); font-family: var(--fu); font-size: 1.3rem; color: var(--ink); cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; }
+    .pin-key:hover { border-color: var(--gold); background: var(--bg2); }
+    .pin-key:active { transform: scale(.94); }
+    .pin-key.del { font-size: .9rem; color: var(--muted); }
+    .pin-error { color: #b84040; font-size: .72rem; letter-spacing: .1em; height: 18px; text-align: center; }
+
+    /* APP */
+    #app { display: none; min-height: 100vh; flex-direction: column; }
+    #app.visible { display: flex; }
+    .admin-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .admin-logo { font-family: var(--fd); font-size: .88rem; letter-spacing: .18em; color: var(--ink); }
+    .admin-logo span { color: var(--gold); }
+    .admin-tag { font-size: .56rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+    .logout-btn { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); background: transparent; padding: 7px 14px; cursor: pointer; border-radius: 1px; transition: all .2s; }
+    .logout-btn:hover { color: var(--ink); border-color: var(--border2); }
+
+    .db-bar { padding: 8px 24px; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    .db-bar.ok  { background: var(--greenl); color: var(--green); border-bottom: 1px solid #c8e6cc; }
+    .db-bar.err { background: #fdf3f3; color: #b84040; border-bottom: 1px solid #e8c8c8; }
+    .db-bar.warn{ background: #fffbf0; color: #7a6020; border-bottom: 1px solid #e8d8a0; }
+    .db-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+    .setup-banner { background: #fffbf0; border-bottom: 1px solid #e8d8a0; padding: 16px 24px; font-size: .75rem; color: #5a4010; line-height: 1.8; }
+    .setup-banner strong { color: #3a2808; }
+    .setup-banner code { background: #fdf0d0; padding: 1px 6px; border-radius: 2px; font-size: .7rem; }
+    .setup-banner a { color: var(--gold); }
+
+    .calendar-area { flex: 1; padding: 24px 20px 140px; max-width: 600px; margin: 0 auto; width: 100%; }
+    .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-size: .65rem; color: var(--muted); }
+    .legend-dot { width: 14px; height: 14px; border-radius: 50%; }
+    .legend-dot.avail { background: var(--gold); }
+    .legend-dot.none { border: 1.5px solid var(--border2); }
+
+    .month-block { margin-bottom: 36px; }
+    .month-title { font-family: var(--fd); font-size: .95rem; letter-spacing: .12em; color: var(--ink); margin-bottom: 14px; text-transform: uppercase; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-dow { text-align: center; font-size: .54rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 4px 0 8px; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: .78rem; cursor: pointer; border: 1.5px solid transparent; transition: all .2s; font-family: var(--fu); }
+    .cal-day.empty { cursor: default; }
+    .cal-day.past { color: var(--border2); cursor: default; pointer-events: none; }
+    .cal-day.available { background: var(--gold); color: #fff; font-weight: 500; }
+    .cal-day.available:hover { background: var(--goldh); }
+    .cal-day.today { border-color: var(--gold); color: var(--gold); font-weight: 600; }
+    .cal-day.today.available { color: #fff; }
+    .cal-day:not(.past):not(.empty):not(.available):hover { border-color: var(--border2); background: var(--bg2); }
+
+    /* Sheet */
+    .sheet-overlay { position: fixed; inset: 0; background: rgba(30,26,21,.4); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
+    .sheet-overlay.open { opacity: 1; pointer-events: all; }
+    .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 16px 16px 0 0; border-top: 1px solid var(--border); z-index: 201; padding-bottom: 44px; transform: translateY(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); max-height: 90vh; overflow-y: auto; }
+    .sheet.open { transform: translateY(0); }
+    .sheet-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin: 12px auto 18px; }
+    .sheet-header { padding: 0 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .sheet-date { font-family: var(--fd); font-size: 1rem; letter-spacing: .06em; color: var(--ink); }
+    .sheet-close { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: transparent; cursor: pointer; font-size: .9rem; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+    .sheet-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 22px; }
+
+    .avail-toggle { display: flex; align-items: center; justify-content: space-between; }
+    .avail-label { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+    .toggle-text { font-size: .8rem; color: var(--body); min-width: 90px; text-align: right; }
+    .toggle { width: 48px; height: 26px; background: var(--border); border-radius: 13px; position: relative; cursor: pointer; transition: background .25s; flex-shrink: 0; }
+    .toggle.on { background: var(--green); }
+    .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: left .25s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+    .toggle.on::after { left: 25px; }
+
+    .section-label { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 8px 14px; border-radius: 20px; border: 1.5px solid var(--border); font-size: .72rem; letter-spacing: .06em; cursor: pointer; background: transparent; color: var(--body); transition: all .2s; font-family: var(--fu); }
+    .chip.on { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+    .sheet-actions { display: flex; gap: 10px; padding: 4px 24px 0; }
+    .btn-save { flex: 1; padding: 15px; background: var(--ink); color: var(--bg); border: none; cursor: pointer; font-family: var(--fu); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; border-radius: 1px; transition: background .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-save:hover { background: var(--gold); }
+    .btn-save:disabled { opacity: .6; cursor: not-allowed; }
+    .btn-clear { padding: 15px 20px; background: transparent; color: #b84040; border: 1.5px solid #e8c8c8; cursor: pointer; font-family: var(--fu); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; border-radius: 1px; transition: all .2s; }
+    .btn-clear:hover { background: #fdf3f3; border-color: #b84040; }
+
+    .spin { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+    .loading .spin { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--ink); color: var(--bg); padding: 12px 24px; border-radius: 24px; font-size: .7rem; letter-spacing: .1em; z-index: 500; transition: transform .3s, opacity .3s; opacity: 0; white-space: nowrap; }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.green { background: var(--green); }
+    .toast.red { background: #b84040; }
+
+    @media (min-width: 600px) {
+      .sheet { left: 50%; right: auto; width: 480px; transform: translateX(-50%) translateY(100%); border-radius: 12px 12px 0 0; }
+      .sheet.open { transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PIN -->
+  <div id="pin-screen">
+    <div>
+      <div class="pin-logo">Saul <span>Captures</span></div>
+      <div class="pin-subtitle">Panel de Administración</div>
+    </div>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot"></div><div class="pin-dot"></div>
+      <div class="pin-dot"></div><div class="pin-dot"></div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key" style="visibility:hidden"></button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+  </div>
+
+  <!-- APP -->
+  <div id="app">
+    <div class="admin-header">
+      <div>
+        <div class="admin-logo">Saul <span>Captures</span></div>
+        <div class="admin-tag">Gestión de Disponibilidad</div>
+      </div>
+      <button class="logout-btn" onclick="logout()">Salir</button>
+    </div>
+    <div class="db-bar warn" id="dbBar"><div class="db-dot"></div><span id="dbMsg">Conectando...</span></div>
+    <div class="setup-banner" id="setupBanner">
+      ⚙️ <strong>Un paso para activar — Firebase (5 min, gratis):</strong><br/>
+      1. Ve a <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → Nuevo proyecto → Build → Realtime Database → Crear → Modo de prueba<br/>
+      2. Copia la URL del proyecto (ej: <code>https://mi-proyecto-default-rtdb.firebaseio.com</code>)<br/>
+      3. Pégala en ambos archivos HTML donde dice <code>YOUR_FIREBASE_URL</code>
+    </div>
+    <div class="calendar-area">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot avail"></div>Disponible</div>
+        <div class="legend-item"><div class="legend-dot none"></div>Sin disponibilidad</div>
+      </div>
+      <div id="calRoot"></div>
+    </div>
+  </div>
+
+  <!-- SHEET -->
+  <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="sheet-date" id="sheetDate"></div>
+      <button class="sheet-close" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="avail-toggle">
+        <span class="avail-label">Estado del día</span>
+        <div class="toggle-wrap">
+          <span class="toggle-text" id="toggleLabel">No disponible</span>
+          <div class="toggle" id="availToggle" onclick="toggleAvail()"></div>
+        </div>
+      </div>
+      <div id="slotsSection" style="display:none">
+        <div class="section-label">Horarios</div>
+        <div class="chips" id="timeChips"></div>
+      </div>
+      <div id="typesSection" style="display:none">
+        <div class="section-label">Tipo de sesión</div>
+        <div class="chips" id="typeChips"></div>
+      </div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn-save" id="saveBtn" onclick="saveDay()">
+        <div class="spin"></div><span>Guardar</span>
+      </button>
+      <button class="btn-clear" id="clearBtn" onclick="clearDay()" style="display:none">Quitar</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ══════════════════════════════════════
+    //  ↓ PEGA TU FIREBASE URL AQUÍ ↓
+    const DB_URL    = 'https://saulvisuals-6a8c1-default-rtdb.firebaseio.com';
+    //  ↓ CAMBIA EL PIN DE SAUL AQUÍ ↓
+    const ADMIN_PIN = '1234';
+    // ══════════════════════════════════════
+
+    const TIMES = ['9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
+    const TYPES = ['Headshots','Baby & Recién Nacido','Familia'];
+    const DOW   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const DOW_FULL = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
+    let pin = '', avail = {}, selDate = null, editTimes = [], editTypes = [], isAvail = false;
+
+    // ── PIN ──
+    function pinKey(d) {
+      if(pin.length >= 4) return;
+      pin += d; updateDots();
+      if(pin.length === 4) setTimeout(() => {
+        if(pin === ADMIN_PIN) {
+          document.getElementById('pin-screen').style.display = 'none';
+          document.getElementById('app').classList.add('visible');
+          initApp();
+        } else {
+          document.getElementById('pinError').textContent = 'PIN incorrecto';
+          pin = ''; updateDots();
+          setTimeout(() => document.getElementById('pinError').textContent = '', 2000);
+        }
+      }, 120);
+    }
+    function pinDel() { pin = pin.slice(0,-1); updateDots(); }
+    function updateDots() { document.querySelectorAll('.pin-dot').forEach((d,i) => d.classList.toggle('filled', i < pin.length)); }
+    function logout() { pin = ''; updateDots(); document.getElementById('app').classList.remove('visible'); document.getElementById('pin-screen').style.display = 'flex'; }
+
+    // ── FIREBASE ──
+    const hasDB = () => true; // Firebase is configured
+    async function dbGet()         { const r = await fetch(`${DB_URL}/availability.json`); return await r.json(); }
+    async function dbSet(d, data)  { await fetch(`${DB_URL}/availability/${d}.json`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }); }
+    async function dbDel(d)        { await fetch(`${DB_URL}/availability/${d}.json`, { method:'DELETE' }); }
+
+    function setBar(state, msg) {
+      const bar = document.getElementById('dbBar'), txt = document.getElementById('dbMsg');
+      bar.className = 'db-bar ' + state;
+      txt.textContent = msg;
+    }
+
+    // ── INIT ──
+    async function initApp() {
+      if(!hasDB()) { setBar('warn','Base de datos no configurada — sigue las instrucciones arriba'); renderCal(); return; }
+      document.getElementById('setupBanner').style.display = 'none';
+      setBar('warn','Cargando...');
+      try { avail = (await dbGet()) || {}; setBar('ok','✓ Conectado — cambios en tiempo real'); }
+      catch(e) { setBar('err','Error de conexión — revisa la URL de Firebase'); }
+      renderCal();
+    }
+
+    // ── CALENDAR ──
+    function toStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+
+    function renderCal() {
+      const root = document.getElementById('calRoot'); root.innerHTML = '';
+      const today = new Date(); today.setHours(0,0,0,0);
+      for(let m=0; m<3; m++) {
+        const first = new Date(today.getFullYear(), today.getMonth()+m, 1);
+        const block = document.createElement('div'); block.className='month-block';
+        const title = document.createElement('div'); title.className='month-title';
+        title.textContent = `${MESES[first.getMonth()]} ${first.getFullYear()}`;
+        block.appendChild(title);
+        const grid = document.createElement('div'); grid.className='cal-grid';
+        DOW.forEach(d => { const el=document.createElement('div'); el.className='cal-dow'; el.textContent=d; grid.appendChild(el); });
+        for(let i=0; i<first.getDay(); i++) { const el=document.createElement('div'); el.className='cal-day empty'; grid.appendChild(el); }
+        const days = new Date(first.getFullYear(), first.getMonth()+1, 0).getDate();
+        for(let day=1; day<=days; day++) {
+          const date = new Date(first.getFullYear(), first.getMonth(), day);
+          const ds = toStr(date);
+          const isPast = date < today, isTod = date.getTime()===today.getTime(), isAv = !!avail[ds];
+          const el = document.createElement('div'); el.className='cal-day';
+          if(isPast) el.classList.add('past');
+          else { if(isAv) el.classList.add('available'); if(isTod) el.classList.add('today'); el.onclick=()=>openSheet(ds,date); }
+          el.textContent = day; grid.appendChild(el);
+        }
+        block.appendChild(grid); root.appendChild(block);
+      }
+    }
+
+    // ── SHEET ──
+    function openSheet(ds, dateObj) {
+      selDate = ds;
+      const ex = avail[ds];
+      isAvail = !!ex;
+      editTimes = ex ? [...(ex.times||[])] : [];
+      editTypes = ex ? [...(ex.types||[])] : [];
+      document.getElementById('sheetDate').textContent = `${DOW_FULL[dateObj.getDay()]}, ${dateObj.getDate()} de ${MESES[dateObj.getMonth()]}`;
+      document.getElementById('clearBtn').style.display = isAvail ? 'block' : 'none';
+      refreshToggle(); buildChips();
+      document.getElementById('overlay').classList.add('open');
+      document.getElementById('sheet').classList.add('open');
+    }
+    function closeSheet() {
+      document.getElementById('overlay').classList.remove('open');
+      document.getElementById('sheet').classList.remove('open');
+      selDate = null;
+    }
+    function toggleAvail() { isAvail=!isAvail; refreshToggle(); }
+    function refreshToggle() {
+      document.getElementById('availToggle').classList.toggle('on',isAvail);
+      document.getElementById('toggleLabel').textContent = isAvail ? 'Disponible' : 'No disponible';
+      document.getElementById('slotsSection').style.display = isAvail?'block':'none';
+      document.getElementById('typesSection').style.display = isAvail?'block':'none';
+    }
+    function buildChips() {
+      const tc=document.getElementById('timeChips'), tyc=document.getElementById('typeChips');
+      tc.innerHTML=''; tyc.innerHTML='';
+      TIMES.forEach(t => {
+        const c=document.createElement('button'); c.className='chip'+(editTimes.includes(t)?' on':''); c.textContent=t;
+        c.onclick=()=>{ editTimes.includes(t)?editTimes.splice(editTimes.indexOf(t),1):editTimes.push(t); c.classList.toggle('on'); };
+        tc.appendChild(c);
+      });
+      TYPES.forEach(t => {
+        const c=document.createElement('button'); c.className='chip'+(editTypes.includes(t)?' on':''); c.textContent=t;
+        c.onclick=()=>{ editTypes.includes(t)?editTypes.splice(editTypes.indexOf(t),1):editTypes.push(t); c.classList.toggle('on'); };
+        tyc.appendChild(c);
+      });
+    }
+
+    async function saveDay() {
+      // Validation — don't save if available but nothing selected
+      if(isAvail && editTimes.length === 0) { toast('Selecciona al menos un horario','red'); return; }
+      if(isAvail && editTypes.length === 0) { toast('Selecciona al menos un tipo de sesión','red'); return; }
+
+      const btn=document.getElementById('saveBtn'); btn.classList.add('loading'); btn.disabled=true;
+      try {
+        if(isAvail) { const d={times:editTimes,types:editTypes}; if(hasDB())await dbSet(selDate,d); avail[selDate]=d; toast('✓ Guardado','green'); }
+        else        { if(hasDB())await dbDel(selDate); delete avail[selDate]; toast('Día sin disponibilidad',''); }
+        renderCal(); closeSheet();
+      } catch(e) { toast(hasDB()?'Error al guardar':'Configura Firebase para guardar','red'); }
+      finally { btn.classList.remove('loading'); btn.disabled=false; }
+    }
+    async function clearDay() {
+      const btn=document.getElementById('saveBtn'); btn.classList.add('loading'); btn.disabled=true;
+      try { if(hasDB())await dbDel(selDate); delete avail[selDate]; renderCal(); closeSheet(); toast('Disponibilidad eliminada',''); }
+      catch(e){ toast('Error','red'); }
+      finally { btn.classList.remove('loading'); btn.disabled=false; }
+    }
+
+    function toast(msg, type) {
+      const t=document.getElementById('toast'); t.textContent=msg;
+      t.className='toast'+(type?' '+type:''); t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),2800);
+    }
+  </script>
+</body>
+</html>
