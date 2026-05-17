@@ -3,784 +3,365 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Saul Captures | Fotografía</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>Admin · Saul Captures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg:#faf8f4;--bg2:#f3ede4;--card:#ffffff;--border:#e2d9cc;--border2:#cfc4b4;
-      --gold:#a8792e;--goldh:#c4963e;--ink:#1e1a15;--body:#3d3630;--muted:#8a7e72;
-      --fd:'Cinzel',serif;--fb:'Cormorant Garamond',serif;--fu:'Jost',sans-serif;
+      --bg: #faf8f4; --bg2: #f3ede4; --card: #ffffff;
+      --border: #e2d9cc; --border2: #cfc4b4;
+      --gold: #a8792e; --goldh: #c4963e;
+      --ink: #1e1a15; --body: #3d3630; --muted: #8a7e72;
+      --green: #3a7d44; --greenl: #edf7ef;
+      --fd: 'Cinzel', serif; --fu: 'Jost', sans-serif; --fb: 'Cormorant Garamond', serif;
     }
-    html{scroll-behavior:smooth;}
-    body{background:var(--bg);color:var(--body);font-family:var(--fb);font-size:18px;line-height:1.7;overflow-x:hidden;cursor:none;}
-    .cursor{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;}
-    .cursor-ring{width:34px;height:34px;border:1.5px solid var(--gold);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.5;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;transition:background .4s,padding .4s,box-shadow .4s;}
-    nav.scrolled{background:rgba(250,248,244,.97);backdrop-filter:blur(14px);padding:14px 60px;border-bottom:1px solid var(--border);box-shadow:0 2px 24px rgba(0,0,0,.06);}nav.scrolled .nav-logo{color:var(--ink);text-shadow:none;}nav.scrolled .nav-links li a{color:var(--muted);text-shadow:none;}nav.scrolled .nav-links li a:hover,nav.scrolled .nav-links li a.active{color:var(--ink);}nav.scrolled .lang-toggle{background:var(--bg2);border-color:var(--border);}nav.scrolled .lang-btn{color:var(--muted);}nav.scrolled .hamburger{background:var(--card);border-color:var(--border);}nav.scrolled .hamburger span{background:var(--ink);}
-    .nav-logo{font-family:var(--fd);font-size:1rem;letter-spacing:.22em;text-transform:uppercase;color:#fff;cursor:pointer;user-select:none;transition:color .4s;text-shadow:0 1px 6px rgba(0,0,0,.5),0 2px 16px rgba(0,0,0,.3);}
-    .nav-logo span{color:var(--gold);}
-    .nav-links{display:flex;gap:32px;list-style:none;align-items:center;}
-    .nav-links li a{font-family:var(--fu);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none;cursor:pointer;transition:color .3s;position:relative;text-shadow:0 1px 6px rgba(0,0,0,.5),0 2px 14px rgba(0,0,0,.3);}
-    .nav-links li a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
-    .nav-links li a:hover,.nav-links li a.active{color:#fff;}
-    .nav-links li a:hover::after,.nav-links li a.active::after{width:100%;}
-    .nav-cta{background:var(--ink)!important;color:var(--bg)!important;padding:10px 22px!important;border-radius:1px;transition:background .3s!important;text-shadow:none!important;}
-    .nav-cta:hover{background:var(--gold)!important;}
-    .nav-cta::after{display:none!important;}
-    .lang-toggle{display:flex;gap:2px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:2px;padding:3px;transition:background .4s,border-color .4s;}
-    .lang-btn{font-family:var(--fu);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border:none;background:transparent;color:rgba(255,255,255,.8);cursor:pointer;border-radius:1px;transition:all .25s;}
-    .lang-btn.active{background:var(--gold);color:#fff;}
-    .hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:40px;height:40px;cursor:pointer;border:1px solid rgba(255,255,255,.4);border-radius:2px;background:rgba(255,255,255,.1);padding:8px;transition:border-color .3s,background .4s;flex-shrink:0;}
-    .hamburger:hover{border-color:var(--gold);}
-    .hamburger span{display:block;width:18px;height:1.5px;background:#fff;transition:all .35s ease;transform-origin:center;}
-    .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
-    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
-    .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
-    .mobile-menu{display:none;position:fixed;inset:0;background:var(--bg);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:0;opacity:0;transition:opacity .35s ease;}
-    .mobile-menu.open{opacity:1;}
-    .mobile-menu-link{font-family:var(--fd);font-size:1.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);padding:18px 0;text-align:center;border-bottom:1px solid var(--border);width:70%;cursor:pointer;transition:color .3s;opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease,color .3s;}
-    .mobile-menu.open .mobile-menu-link{opacity:1;transform:translateY(0);}
-    .mobile-menu.open .mobile-menu-link:nth-child(1){transition-delay:.05s;}
-    .mobile-menu.open .mobile-menu-link:nth-child(2){transition-delay:.10s;}
-    .mobile-menu.open .mobile-menu-link:nth-child(3){transition-delay:.15s;}
-    .mobile-menu.open .mobile-menu-link:nth-child(4){transition-delay:.20s;}
-    .mobile-menu.open .mobile-menu-link:nth-child(5){transition-delay:.25s;}
-    .mobile-menu-link:hover{color:var(--gold);}
-    .mobile-menu-link.cta{background:var(--ink);color:var(--bg)!important;border-radius:1px;border:none;margin-top:28px;padding:18px 48px;width:auto;font-size:1rem;letter-spacing:.2em;}
-    .mobile-menu-link.cta:hover{background:var(--gold);}
-    .mobile-lang{display:flex;gap:6px;margin-top:24px;}
-    .mobile-lang .lang-btn{font-size:.7rem;padding:8px 18px;}
-    .mobile-social{display:flex;gap:24px;margin-top:20px;}
-    .mobile-social a{color:var(--muted);transition:color .3s;}
-    .mobile-social a:hover{color:var(--gold);}
-    .mobile-social svg{width:22px;height:22px;fill:currentColor;}
-    .mobile-menu-close{position:absolute;top:22px;right:20px;font-family:var(--fu);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);cursor:pointer;border:1px solid var(--border);padding:8px 14px;border-radius:1px;background:transparent;transition:color .3s,border-color .3s;}
-    .mobile-menu-close:hover{color:var(--ink);border-color:var(--ink);}
-    .page{display:none;min-height:100vh;}
-    .page.active{display:block;animation:pageIn .4s ease forwards;}
-    @keyframes pageIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-    .hero{height:100vh;min-height:500px;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
-    .hero-video-wrap{position:absolute;inset:0;z-index:0;}
-    .hero-video-wrap video{width:100%;height:100%;object-fit:cover;}
-    .hero-video-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#e8dfd2 0%,#d4c5b0 50%,#c9b89e 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
-    .hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(0,0,0,.45) 0%,rgba(0,0,0,.20) 50%,rgba(0,0,0,.55) 100%);}
-    .hero-line{position:absolute;z-index:2;width:1px;top:50%;transform:translateY(-50%);height:160px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);opacity:.4;}
-    .hero-line.left{left:60px;}.hero-line.right{right:60px;}
-    .hero-content{position:relative;z-index:3;max-width:820px;padding:0 28px;}
-    .hero-eyebrow{font-family:var(--fu);font-size:.65rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;opacity:0;animation:fadeUp .8s ease .2s forwards;text-shadow:0 1px 8px rgba(0,0,0,.6);}
-    .hero-title{font-family:var(--fd);font-size:clamp(2.4rem,7vw,6rem);font-weight:400;line-height:1.05;letter-spacing:.05em;color:#fff;margin-bottom:18px;opacity:0;animation:fadeUp .9s ease .4s forwards;text-shadow:0 2px 12px rgba(0,0,0,.55),0 4px 32px rgba(0,0,0,.35);}
-    .hero-title em{font-style:italic;color:var(--gold);font-family:var(--fb);font-size:1.14em;}
-    .hero-sub{font-family:var(--fb);font-size:clamp(.95rem,2.5vw,1.1rem);font-weight:300;color:rgba(255,255,255,.88);letter-spacing:.05em;margin-bottom:40px;opacity:0;animation:fadeUp .9s ease .6s forwards;text-shadow:0 1px 8px rgba(0,0,0,.55);}
-    .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .9s ease .8s forwards;}
-    .btn-primary{font-family:var(--fu);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:15px 36px;border:none;cursor:pointer;transition:background .3s,transform .2s;border-radius:1px;}
-    .btn-primary:hover{background:var(--gold);transform:translateY(-2px);}
-    .btn-ghost{font-family:var(--fu);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;border:1.5px solid rgba(255,255,255,.6);color:#fff;padding:15px 36px;background:rgba(0,0,0,.18);cursor:pointer;transition:border-color .3s,background .3s,transform .2s;border-radius:1px;text-shadow:0 1px 6px rgba(0,0,0,.4);}
-    .btn-ghost:hover{border-color:var(--gold);background:rgba(168,121,46,.2);transform:translateY(-2px);}
-    .hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s ease 1.1s forwards;}
-    .hero-scroll span{font-family:var(--fu);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.6);}
-    .scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--gold),transparent);animation:pulse 2s ease infinite;}
-    .home-about{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);}
-    .home-about-text{padding:90px 72px;display:flex;flex-direction:column;justify-content:center;}
-    /* VIDEO BOX for about section */
-    .home-about-video{border-left:1px solid var(--border);background:var(--ink);min-height:480px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-    .home-about-video video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-    .home-about-video-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;position:relative;z-index:1;padding:40px;}
-    .about-vid-icon{font-size:2.4rem;opacity:.4;}
-    .about-vid-label{font-family:var(--fu);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);}
-    .about-vid-hint{font-family:var(--fb);font-size:.9rem;color:rgba(255,255,255,.3);font-style:italic;text-align:center;max-width:280px;line-height:1.6;}
-    .home-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);}
-    .home-stat{padding:44px 32px;border-right:1px solid var(--border);text-align:center;background:var(--card);}
-    .home-stat:last-child{border-right:none;}
-    .stat-num{font-family:var(--fd);font-size:2.4rem;color:var(--gold);line-height:1;}
-    .stat-label{font-family:var(--fu);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:8px;}
-    /* PAGE HEADERS — reduced size for gallery & pricing */
-    .page-header{padding:140px 60px 72px;text-align:center;background:var(--bg2);border-bottom:1px solid var(--border);}
-    .page-header.compact{padding:100px 60px 48px;}
-    .eyebrow{font-family:var(--fu);font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
-    .pg-title{font-family:var(--fd);font-size:clamp(1.8rem,4vw,3rem);font-weight:400;letter-spacing:.05em;line-height:1.15;color:var(--ink);}
-    .page-header.compact .pg-title{font-size:clamp(1.4rem,3vw,2rem);}
-    .divider{width:50px;height:1px;background:var(--gold);margin:24px auto;}
-    .page-header.compact .divider{margin:16px auto;}
-    .pg-desc{font-family:var(--fb);font-size:1.05rem;color:var(--muted);max-width:520px;margin:0 auto;font-weight:300;line-height:1.9;}
-    .page-header.compact .pg-desc{font-size:.95rem;}
-    .ae{font-family:var(--fu);font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
-    .at{font-family:var(--fd);font-size:clamp(1.6rem,3vw,2.5rem);font-weight:400;letter-spacing:.04em;line-height:1.2;color:var(--ink);}
-    .adiv{width:50px;height:1px;background:var(--gold);margin:22px 0;}
-    .ad{font-family:var(--fb);font-size:1.02rem;color:var(--muted);font-weight:300;line-height:1.9;}
-    .gallery-wrap{padding:52px;max-width:1400px;margin:0 auto;}
-    .gallery-tabs{display:flex;gap:3px;background:var(--bg2);padding:4px;border:1px solid var(--border);border-radius:2px;margin-bottom:40px;flex-wrap:wrap;width:fit-content;max-width:100%;}
-    .gallery-tab{font-family:var(--fu);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:10px 20px;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .3s;border-radius:1px;}
-    .gallery-tab.active{background:var(--ink);color:var(--bg);}
-    .gallery-tab:hover:not(.active){color:var(--ink);background:var(--border);}
-    .gallery-section{display:none;}
-    .gallery-section.active{display:block;animation:pageIn .35s ease forwards;}
-    .gallery-grid{display:grid;gap:10px;}
-    .g3{grid-template-columns:repeat(3,1fr);}
-    .gallery-item{background:var(--bg2);border:1px solid var(--border);overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;transition:transform .4s,box-shadow .4s;cursor:pointer;}
-    .gallery-item:hover{transform:scale(1.01);box-shadow:0 8px 40px rgba(0,0,0,.1);}
-    .gallery-item:hover .goverlay{opacity:1;}
-    .gallery-item.tall{grid-row:span 2;}.gallery-item.wide{grid-column:span 2;}
-    /* Gallery photo container */
-    .gph{width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:28px;position:relative;}
-    .gph.tall-ph{min-height:440px;}
-    .gph-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
-    .gph-fallback{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;height:100%;}
-    .gp-icon{font-size:2rem;opacity:.2;}
-    .gp-text{font-family:var(--fu);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--border2);}
-    .goverlay{position:absolute;inset:0;background:rgba(30,26,21,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;z-index:2;}
-    .goverlay-icon{width:46px;height:46px;border:1px solid rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;}
-    .gcaption{font-family:var(--fb);font-style:italic;font-size:.95rem;color:var(--muted);text-align:center;margin-top:22px;}
-    .pricing-wrap{padding:52px;max-width:1200px;margin:0 auto;}
-    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:56px;}
-    .pricing-card{background:var(--card);border:1px solid var(--border);padding:44px 30px;position:relative;transition:border-color .3s,transform .3s,box-shadow .3s;}
-    .pricing-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 48px rgba(168,121,46,.12);}
-    .pricing-card.featured{border-color:var(--gold);background:#fdf9f2;}
-    .p-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-family:var(--fu);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;padding:6px 20px;white-space:nowrap;}
-    .p-session{font-family:var(--fu);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-    .p-name{font-family:var(--fd);font-size:1.45rem;letter-spacing:.08em;color:var(--ink);margin-bottom:20px;}
-    .p-price{font-family:var(--fb);font-size:2.8rem;font-weight:300;line-height:1;margin-bottom:6px;color:var(--ink);}
-    .p-price sup{font-size:1.1rem;color:var(--gold);vertical-align:super;}
-    .p-note{font-family:var(--fu);font-size:.6rem;color:var(--muted);letter-spacing:.1em;margin-bottom:24px;}
-    .p-div{width:100%;height:1px;background:var(--border);margin:24px 0;}
-    .p-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
-    .p-features li{font-family:var(--fb);font-size:.95rem;color:var(--body);display:flex;align-items:flex-start;gap:10px;}
-    .p-features li::before{content:'\u2726';color:var(--gold);font-size:.52rem;margin-top:6px;flex-shrink:0;}
-    .p-cta{display:block;text-align:center;font-family:var(--fu);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;padding:13px;border:1.5px solid var(--border2);color:var(--ink);background:transparent;cursor:pointer;transition:all .3s;width:100%;}
-    .p-cta:hover,.pricing-card.featured .p-cta{background:var(--ink);border-color:var(--ink);color:var(--bg);}
-    .extras{border-top:1px solid var(--border);padding-top:52px;max-width:720px;margin:0 auto;}
-    .extras-title{font-family:var(--fd);font-size:1.3rem;letter-spacing:.1em;text-align:center;margin-bottom:24px;color:var(--ink);}
-    .extras-table{width:100%;border-collapse:collapse;}
-    .extras-table tr{border-bottom:1px solid var(--border);}
-    .extras-table td{font-family:var(--fb);font-size:.98rem;padding:13px 14px;color:var(--body);}
-    .extras-table td:last-child{text-align:right;color:var(--gold);font-size:1.05rem;}
-    .p-footnote{text-align:center;font-family:var(--fb);font-size:.92rem;color:var(--muted);margin-top:36px;font-style:italic;}
-    .p-footnote a{color:var(--gold);text-decoration:none;cursor:pointer;}
-    .faq-wrap{padding:52px;max-width:780px;margin:0 auto;}
-    .faq-item{border-bottom:1px solid var(--border);}
-    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:26px 0;cursor:pointer;gap:20px;}
-    .faq-q h3{font-family:var(--fd);font-size:1.05rem;font-weight:400;letter-spacing:.03em;color:var(--ink);}
-    .faq-icon{width:30px;height:30px;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1rem;transition:transform .3s,background .3s,border-color .3s;}
-    .faq-item.open .faq-icon{transform:rotate(45deg);background:var(--gold);color:#fff;border-color:var(--gold);}
-    .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;}
-    .faq-item.open .faq-a{max-height:300px;}
-    .faq-a p{font-family:var(--fb);font-size:.98rem;color:var(--muted);padding-bottom:26px;line-height:1.9;}
-    .contact-wrap{padding:52px;max-width:680px;margin:0 auto;}
-    .contact-form{display:flex;flex-direction:column;gap:15px;}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
-    .form-group{display:flex;flex-direction:column;gap:7px;}
-    .form-label{font-family:var(--fu);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
-    .form-input,.form-select,.form-textarea{background:var(--card);border:1px solid var(--border);color:var(--ink);padding:13px 16px;font-family:var(--fb);font-size:1rem;outline:none;transition:border-color .3s;border-radius:1px;width:100%;}
-    .form-input::placeholder,.form-textarea::placeholder{color:var(--border2);}
-    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
-    .form-select{appearance:none;cursor:pointer;}
-    .form-textarea{resize:vertical;min-height:110px;}
-    .form-submit{font-family:var(--fu);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;background:var(--ink);color:var(--bg);border:none;padding:17px;cursor:pointer;transition:background .3s,transform .2s,opacity .3s;border-radius:1px;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:10px;}
-    .form-submit:hover{background:var(--gold);transform:translateY(-1px);}
-    .form-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
-    .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-    .form-submit.loading .spinner{display:block;}
-    .form-submit.loading .btn-text{opacity:.7;}
-    .form-success{display:none;text-align:center;padding:48px 32px;border:1px solid #c8dfc8;background:#f6faf6;border-radius:2px;margin-top:8px;}
-    .form-success.show{display:block;animation:pageIn .4s ease forwards;}
-    .success-icon{font-size:2.8rem;margin-bottom:16px;}
-    .success-title{font-family:var(--fd);font-size:1.4rem;color:var(--ink);letter-spacing:.06em;margin-bottom:10px;}
-    .success-sub{font-family:var(--fb);font-size:1rem;color:var(--muted);line-height:1.8;}
-    .form-error-msg{display:none;font-family:var(--fb);font-size:.92rem;color:#b84040;background:#fdf3f3;border:1px solid #e8c8c8;padding:12px 16px;border-radius:1px;margin-top:8px;text-align:center;}
-    .form-error-msg.show{display:block;}
-    .contact-info{display:flex;justify-content:center;gap:40px;margin-top:52px;padding-top:40px;border-top:1px solid var(--border);flex-wrap:wrap;}
-    .ci{display:flex;flex-direction:column;align-items:center;gap:5px;}
-    .ci-label{font-family:var(--fu);font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
-    .ci-value{font-family:var(--fb);font-size:1rem;color:var(--muted);}
-    .ci-value a{color:var(--muted);text-decoration:none;transition:color .3s;}
-    .ci-value a:hover{color:var(--gold);}
-    footer{background:var(--bg2);border-top:1px solid var(--border);padding:36px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
-    .footer-logo{font-family:var(--fd);font-size:.88rem;letter-spacing:.2em;color:var(--ink);}
-    .footer-logo span{color:var(--gold);}
-    .footer-links{display:flex;gap:28px;list-style:none;align-items:center;}
-    .footer-links a{font-family:var(--fu);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;cursor:pointer;transition:color .3s;}
-    .footer-links a:hover{color:var(--gold);}
-    .footer-social{display:flex;gap:14px;align-items:center;}
-    .footer-social a{color:var(--muted);text-decoration:none;transition:color .3s;display:flex;align-items:center;}
-    .footer-social a:hover{color:var(--gold);}
-    .footer-social svg{width:18px;height:18px;fill:currentColor;}
-    .footer-copy{font-family:var(--fu);font-size:.56rem;color:var(--border2);letter-spacing:.1em;width:100%;text-align:center;padding-top:18px;border-top:1px solid var(--border);}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
-    @keyframes pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-    .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
-    @media(max-width:1024px){nav{padding:20px 32px;}nav.scrolled{padding:13px 32px;}.home-about-text{padding:72px 48px;}.gallery-wrap,.pricing-wrap,.faq-wrap,.contact-wrap{padding:40px 32px;}footer{padding:32px;}}
-    @media(max-width:768px){
-      body{cursor:auto;font-size:17px;}.cursor,.cursor-ring{display:none;}
-      nav{padding:16px 20px;}nav.scrolled{padding:12px 20px;}
-      .nav-links{display:none;}.hamburger{display:flex;}.mobile-menu{display:flex;}.hero-line{display:none;}
-      .hero{min-height:100svh;}.hero-content{padding:0 20px;}
-      .hero-eyebrow{font-size:.6rem;letter-spacing:.28em;margin-bottom:16px;}.hero-sub{margin-bottom:32px;}
-      .hero-actions{gap:10px;}.btn-primary,.btn-ghost{padding:14px 28px;font-size:.68rem;}
-      .home-about{grid-template-columns:1fr;}.home-about-video{min-height:280px;border-left:none;border-top:1px solid var(--border);}.home-about-text{padding:52px 24px;}
-      .home-stats{grid-template-columns:1fr 1fr;}
-      .home-stat{padding:32px 20px;border-right:none;border-bottom:1px solid var(--border);}
-      .home-stat:nth-child(odd){border-right:1px solid var(--border);}
-      .home-stat:nth-child(3),.home-stat:nth-child(4){border-bottom:none;}
-      .page-header{padding:110px 24px 52px;}.page-header.compact{padding:90px 24px 36px;}
-      .gallery-wrap{padding:28px 16px;}.gallery-tabs{width:100%;}.gallery-tab{padding:9px 14px;font-size:.58rem;}
-      .g3{grid-template-columns:repeat(2,1fr);}.gallery-item.wide{grid-column:span 1;}.gallery-item.tall{grid-row:span 1;}
-      .gph{min-height:180px;}.gph.tall-ph{min-height:180px;}
-      .pricing-wrap{padding:28px 16px;}.pricing-grid{grid-template-columns:1fr;gap:16px;}
-      .faq-wrap{padding:28px 16px;}.faq-q h3{font-size:.97rem;}
-      .contact-wrap{padding:28px 16px;}.form-row{grid-template-columns:1fr;}.contact-info{gap:24px;}
-      footer{padding:24px 16px;flex-direction:column;align-items:flex-start;gap:16px;}.footer-links{flex-wrap:wrap;gap:18px;}
+    html, body { height: 100%; }
+    body { background: var(--bg); color: var(--body); font-family: var(--fu); font-size: 14px; line-height: 1.6; }
+
+    /* PIN */
+    #pin-screen { position: fixed; inset: 0; z-index: 999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 40px 24px; }
+    .pin-logo { font-family: var(--fd); font-size: 1.1rem; letter-spacing: .2em; color: var(--ink); text-align: center; }
+    .pin-logo span { color: var(--gold); }
+    .pin-subtitle { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); text-align: center; margin-top: 4px; }
+    .pin-dots { display: flex; gap: 14px; }
+    .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border2); background: transparent; transition: background .2s; }
+    .pin-dot.filled { background: var(--gold); border-color: var(--gold); }
+    .pin-pad { display: grid; grid-template-columns: repeat(3, 72px); gap: 12px; }
+    .pin-key { height: 72px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); font-family: var(--fu); font-size: 1.3rem; color: var(--ink); cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; }
+    .pin-key:hover { border-color: var(--gold); background: var(--bg2); }
+    .pin-key:active { transform: scale(.94); }
+    .pin-key.del { font-size: .9rem; color: var(--muted); }
+    .pin-error { color: #b84040; font-size: .72rem; letter-spacing: .1em; height: 18px; text-align: center; }
+
+    /* APP */
+    #app { display: none; min-height: 100vh; flex-direction: column; }
+    #app.visible { display: flex; }
+    .admin-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .admin-logo { font-family: var(--fd); font-size: .88rem; letter-spacing: .18em; color: var(--ink); }
+    .admin-logo span { color: var(--gold); }
+    .admin-tag { font-size: .56rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+    .logout-btn { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); background: transparent; padding: 7px 14px; cursor: pointer; border-radius: 1px; transition: all .2s; }
+    .logout-btn:hover { color: var(--ink); border-color: var(--border2); }
+
+    .db-bar { padding: 8px 24px; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    .db-bar.ok  { background: var(--greenl); color: var(--green); border-bottom: 1px solid #c8e6cc; }
+    .db-bar.err { background: #fdf3f3; color: #b84040; border-bottom: 1px solid #e8c8c8; }
+    .db-bar.warn{ background: #fffbf0; color: #7a6020; border-bottom: 1px solid #e8d8a0; }
+    .db-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+    .setup-banner { background: #fffbf0; border-bottom: 1px solid #e8d8a0; padding: 16px 24px; font-size: .75rem; color: #5a4010; line-height: 1.8; }
+    .setup-banner strong { color: #3a2808; }
+    .setup-banner code { background: #fdf0d0; padding: 1px 6px; border-radius: 2px; font-size: .7rem; }
+    .setup-banner a { color: var(--gold); }
+
+    .calendar-area { flex: 1; padding: 24px 20px 140px; max-width: 600px; margin: 0 auto; width: 100%; }
+    .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-size: .65rem; color: var(--muted); }
+    .legend-dot { width: 14px; height: 14px; border-radius: 50%; }
+    .legend-dot.avail { background: var(--gold); }
+    .legend-dot.none { border: 1.5px solid var(--border2); }
+
+    .month-block { margin-bottom: 36px; }
+    .month-title { font-family: var(--fd); font-size: .95rem; letter-spacing: .12em; color: var(--ink); margin-bottom: 14px; text-transform: uppercase; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-dow { text-align: center; font-size: .54rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 4px 0 8px; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: .78rem; cursor: pointer; border: 1.5px solid transparent; transition: all .2s; font-family: var(--fu); }
+    .cal-day.empty { cursor: default; }
+    .cal-day.past { color: var(--border2); cursor: default; pointer-events: none; }
+    .cal-day.available { background: var(--gold); color: #fff; font-weight: 500; }
+    .cal-day.available:hover { background: var(--goldh); }
+    .cal-day.today { border-color: var(--gold); color: var(--gold); font-weight: 600; }
+    .cal-day.today.available { color: #fff; }
+    .cal-day:not(.past):not(.empty):not(.available):hover { border-color: var(--border2); background: var(--bg2); }
+
+    /* Sheet */
+    .sheet-overlay { position: fixed; inset: 0; background: rgba(30,26,21,.4); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .3s; }
+    .sheet-overlay.open { opacity: 1; pointer-events: all; }
+    .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 16px 16px 0 0; border-top: 1px solid var(--border); z-index: 201; padding-bottom: 44px; transform: translateY(100%); transition: transform .35s cubic-bezier(.4,0,.2,1); max-height: 90vh; overflow-y: auto; }
+    .sheet.open { transform: translateY(0); }
+    .sheet-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin: 12px auto 18px; }
+    .sheet-header { padding: 0 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .sheet-date { font-family: var(--fd); font-size: 1rem; letter-spacing: .06em; color: var(--ink); }
+    .sheet-close { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: transparent; cursor: pointer; font-size: .9rem; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+    .sheet-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 22px; }
+
+    .avail-toggle { display: flex; align-items: center; justify-content: space-between; }
+    .avail-label { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+    .toggle-text { font-size: .8rem; color: var(--body); min-width: 90px; text-align: right; }
+    .toggle { width: 48px; height: 26px; background: var(--border); border-radius: 13px; position: relative; cursor: pointer; transition: background .25s; flex-shrink: 0; }
+    .toggle.on { background: var(--green); }
+    .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: left .25s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+    .toggle.on::after { left: 25px; }
+
+    .section-label { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 8px 14px; border-radius: 20px; border: 1.5px solid var(--border); font-size: .72rem; letter-spacing: .06em; cursor: pointer; background: transparent; color: var(--body); transition: all .2s; font-family: var(--fu); }
+    .chip.on { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+    .sheet-actions { display: flex; gap: 10px; padding: 4px 24px 0; }
+    .btn-save { flex: 1; padding: 15px; background: var(--ink); color: var(--bg); border: none; cursor: pointer; font-family: var(--fu); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; border-radius: 1px; transition: background .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-save:hover { background: var(--gold); }
+    .btn-save:disabled { opacity: .6; cursor: not-allowed; }
+    .btn-clear { padding: 15px 20px; background: transparent; color: #b84040; border: 1.5px solid #e8c8c8; cursor: pointer; font-family: var(--fu); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; border-radius: 1px; transition: all .2s; }
+    .btn-clear:hover { background: #fdf3f3; border-color: #b84040; }
+
+    .spin { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+    .loading .spin { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--ink); color: var(--bg); padding: 12px 24px; border-radius: 24px; font-size: .7rem; letter-spacing: .1em; z-index: 500; transition: transform .3s, opacity .3s; opacity: 0; white-space: nowrap; }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast.green { background: var(--green); }
+    .toast.red { background: #b84040; }
+
+    @media (min-width: 600px) {
+      .sheet { left: 50%; right: auto; width: 480px; transform: translateX(-50%) translateY(100%); border-radius: 12px 12px 0 0; }
+      .sheet.open { transform: translateX(-50%) translateY(0); }
     }
-    @media(max-width:420px){.g3{grid-template-columns:1fr;}.hero-title{font-size:2.2rem;}.gallery-tabs{gap:2px;}.gallery-tab{padding:8px 10px;}}
   </style>
 </head>
 <body>
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-close" onclick="closeMenu()" data-i="menu_close">Cerrar ✕</button>
-    <a class="mobile-menu-link" onclick="showPage('home');closeMenu()"    data-i="nav_home">Inicio</a>
-    <a class="mobile-menu-link" onclick="showPage('gallery');closeMenu()" data-i="nav_gallery">Galería</a>
-    <a class="mobile-menu-link" onclick="showPage('pricing');closeMenu()" data-i="nav_pricing">Precios</a>
-    <a class="mobile-menu-link" onclick="showPage('faq');closeMenu()"     data-i="nav_faq">FAQ</a>
-    <a class="mobile-menu-link cta" onclick="showPage('contact');closeMenu()" data-i="nav_book">Reservar</a>
-    <div class="mobile-lang">
-      <button class="lang-btn" onclick="setLang('es')" id="mbtn-es">ES</button>
-      <button class="lang-btn" onclick="setLang('en')" id="mbtn-en">EN</button>
+  <!-- PIN -->
+  <div id="pin-screen">
+    <div>
+      <div class="pin-logo">Saul <span>Captures</span></div>
+      <div class="pin-subtitle">Panel de Administración</div>
     </div>
-    <div class="mobile-social">
-      <a href="https://www.instagram.com/fotografonyc1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-      <a href="https://www.tiktok.com/@saultemifotos" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z"/></svg></a>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot"></div><div class="pin-dot"></div>
+      <div class="pin-dot"></div><div class="pin-dot"></div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key" style="visibility:hidden"></button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+  </div>
+
+  <!-- APP -->
+  <div id="app">
+    <div class="admin-header">
+      <div>
+        <div class="admin-logo">Saul <span>Captures</span></div>
+        <div class="admin-tag">Gestión de Disponibilidad</div>
+      </div>
+      <button class="logout-btn" onclick="logout()">Salir</button>
+    </div>
+    <div class="db-bar warn" id="dbBar"><div class="db-dot"></div><span id="dbMsg">Conectando...</span></div>
+    <div class="setup-banner" id="setupBanner">
+      ⚙️ <strong>Un paso para activar — Firebase (5 min, gratis):</strong><br/>
+      1. Ve a <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → Nuevo proyecto → Build → Realtime Database → Crear → Modo de prueba<br/>
+      2. Copia la URL del proyecto (ej: <code>https://mi-proyecto-default-rtdb.firebaseio.com</code>)<br/>
+      3. Pégala en ambos archivos HTML donde dice <code>YOUR_FIREBASE_URL</code>
+    </div>
+    <div class="calendar-area">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot avail"></div>Disponible</div>
+        <div class="legend-item"><div class="legend-dot none"></div>Sin disponibilidad</div>
+      </div>
+      <div id="calRoot"></div>
     </div>
   </div>
 
-  <!-- NAV -->
-  <nav id="navbar">
-    <span class="nav-logo" onclick="showPage('home')">Saul <span>Captures</span></span>
-    <ul class="nav-links">
-      <li><a onclick="showPage('home')"    data-page="home"    data-i="nav_home">Inicio</a></li>
-      <li><a onclick="showPage('gallery')" data-page="gallery" data-i="nav_gallery">Galería</a></li>
-      <li><a onclick="showPage('pricing')" data-page="pricing" data-i="nav_pricing">Precios</a></li>
-      <li><a onclick="showPage('faq')"     data-page="faq"     data-i="nav_faq">FAQ</a></li>
-      <li>
-        <div class="lang-toggle">
-          <button class="lang-btn" onclick="setLang('es')" id="btn-es">ES</button>
-          <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
-        </div>
-      </li>
-      <li><a onclick="showPage('contact')" data-page="contact" data-i="nav_book" class="nav-cta">Reservar</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- HOME -->
-  <div class="page active" id="page-home">
-    <div class="hero">
-      <div class="hero-video-wrap">
-        <!--
-          CAMBIAR IMAGEN DE FONDO: reemplaza IMG_1673.jpg con tu foto.
-          Para video: reemplaza el <img> con:
-          <video autoplay muted loop playsinline><source src="TU_VIDEO.mp4" type="video/mp4" /></video>
-        -->
-        <img src="IMG_1673.jpg" alt="Saul Captures"
-          style="width:100%;height:100%;object-fit:cover;object-position:center;"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="hero-video-placeholder" style="display:none;">
-          <div style="font-size:3rem;opacity:.3;">🖼️</div>
-          <div style="font-family:var(--fu);font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:#8a7a68;">Imagen de Fondo</div>
-          <div style="font-family:var(--fb);font-size:.9rem;color:#9e8e7c;font-style:italic;text-align:center;padding:0 20px;">Reemplaza IMG_1673.jpg con tu foto</div>
-        </div>
-      </div>
-      <div class="hero-overlay"></div>
-      <div class="hero-line left"></div><div class="hero-line right"></div>
-      <div class="hero-content">
-        <p class="hero-eyebrow" data-i="hero_eyebrow">Fotografía de Retratos y Estilo de Vida</p>
-        <h1 class="hero-title">Cada Foto<br/><em data-i="hero_title_em">Cuenta una Historia</em></h1>
-        <p class="hero-sub" data-i="hero_sub">Quinceañeras · Sesiones · Recién Nacidos · Retratos Familiares</p>
-        <div class="hero-actions">
-          <button class="btn-primary" onclick="showPage('gallery')" data-i="hero_btn1">Ver Galería</button>
-          <button class="btn-ghost"   onclick="showPage('contact')" data-i="hero_btn2">Reservar Sesión</button>
-        </div>
-      </div>
-      <div class="hero-scroll"><span data-i="scroll_label">Deslizar</span><div class="scroll-line"></div></div>
+  <!-- SHEET -->
+  <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="sheet-date" id="sheetDate"></div>
+      <button class="sheet-close" onclick="closeSheet()">✕</button>
     </div>
-
-    <div class="home-about">
-      <div class="home-about-text reveal">
-        <p class="ae" data-i="about_eyebrow">Sobre Saul</p>
-        <h2 class="at" data-i="about_title">Capturando Tus Momentos<br/>Más Preciados</h2>
-        <div class="adiv"></div>
-        <p class="ad" data-i="about_p1">Creo que cada familia, cada logro, cada risa merece ser preservada con intención y arte. Desde la ternura de un recién nacido hasta la alegría de una quinceañera, estoy aquí para contar tu historia — de manera bella y auténtica.</p>
-        <p class="ad" style="margin-top:14px;" data-i="about_p2">Trabajando con luz natural y un amor genuino por las personas, creo imágenes que se sienten eternas — fotografías que pasarás de generación en generación.</p>
-        <div style="margin-top:32px;"><button class="btn-primary" onclick="showPage('gallery')" data-i="about_btn">Explorar la Galería</button></div>
-      </div>
-      <!-- VIDEO BOX: reemplaza YOUR_VIDEO.mp4 con tu archivo -->
-      <div class="home-about-video">
-        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;display:none;" id="aboutVideo"
-          onerror="this.style.display='none'">
-          <source src="YOUR_VIDEO.mp4" type="video/mp4" />
-        </video>
-        <div class="home-about-video-placeholder" id="aboutVideoPlaceholder">
-          <div class="about-vid-icon">🎬</div>
-          <div class="about-vid-label">Video</div>
-          <div class="about-vid-hint">Reemplaza YOUR_VIDEO.mp4<br/>con tu archivo de video</div>
+    <div class="sheet-body">
+      <div class="avail-toggle">
+        <span class="avail-label">Estado del día</span>
+        <div class="toggle-wrap">
+          <span class="toggle-text" id="toggleLabel">No disponible</span>
+          <div class="toggle" id="availToggle" onclick="toggleAvail()"></div>
         </div>
+      </div>
+      <div id="slotsSection" style="display:none">
+        <div class="section-label">Horarios</div>
+        <div class="chips" id="timeChips"></div>
+      </div>
+      <div id="typesSection" style="display:none">
+        <div class="section-label">Tipo de sesión</div>
+        <div class="chips" id="typeChips"></div>
       </div>
     </div>
-
-    <div class="home-stats">
-      <div class="home-stat reveal">   <div class="stat-num">300+</div><div class="stat-label" data-i="stat1">Sesiones Completadas</div></div>
-      <div class="home-stat reveal d1"><div class="stat-num">100%</div><div class="stat-label" data-i="stat2">Satisfacción</div></div>
-      <div class="home-stat reveal d2"><div class="stat-num">4</div>   <div class="stat-label" data-i="stat3">Especialidades</div></div>
-      <div class="home-stat reveal d3"><div class="stat-num">5+</div>  <div class="stat-label" data-i="stat4">Años de Experiencia</div></div>
+    <div class="sheet-actions">
+      <button class="btn-save" id="saveBtn" onclick="saveDay()">
+        <div class="spin"></div><span>Guardar</span>
+      </button>
+      <button class="btn-clear" id="clearBtn" onclick="clearDay()" style="display:none">Quitar</button>
     </div>
-    <footer>
-      <div class="footer-logo">Saul <span>Captures</span></div>
-      <ul class="footer-links">
-        <li><a onclick="showPage('gallery')" data-i="nav_gallery">Galería</a></li>
-        <li><a onclick="showPage('pricing')" data-i="nav_pricing">Precios</a></li>
-        <li><a onclick="showPage('faq')"     data-i="nav_faq">FAQ</a></li>
-        <li><a onclick="showPage('contact')" data-i="nav_book">Reservar</a></li>
-      </ul>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/fotografonyc1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-        <a href="https://www.tiktok.com/@saultemifotos" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z"/></svg></a>
-      </div>
-      <p class="footer-copy" data-i="footer_copy">© 2025 Saul Captures · Todos los derechos reservados</p>
-    </footer>
   </div>
 
-  <!-- GALLERY — header uses .compact class for smaller size -->
-  <div class="page" id="page-gallery">
-    <div class="page-header compact"><p class="eyebrow" data-i="gallery_eyebrow">Portafolio</p><h2 class="pg-title" data-i="gallery_title">La Galería</h2><div class="divider"></div><p class="pg-desc" data-i="gallery_desc">Una selección de sesiones — navega por categoría abajo.</p></div>
-    <div class="gallery-wrap">
-      <div class="gallery-tabs">
-        <button class="gallery-tab active" onclick="switchTab('quince',this)" data-i="tab_quince">Quinceañeras</button>
-        <button class="gallery-tab" onclick="switchTab('sessions',this)" data-i="tab_sessions">Sesiones</button>
-        <button class="gallery-tab" onclick="switchTab('baby',this)" data-i="tab_baby">Bebé</button>
-        <button class="gallery-tab" onclick="switchTab('family',this)" data-i="tab_family">Familia</button>
-      </div>
-
-      <!-- QUINCEAÑERAS — add your photos: replace quince-1.jpg, quince-2.jpg etc. -->
-      <div class="gallery-section active" id="tab-quince">
-        <div class="gallery-grid g3">
-          <div class="gallery-item tall">
-            <div class="gph tall-ph"><img class="gph-img" src="quince-1.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">👗</div><div class="gp-text" data-i="g_q1">Retrato de Vestido</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="quince-2.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">💐</div><div class="gp-text" data-i="g_q2">Detalle Floral</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="quince-3.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">✨</div><div class="gp-text" data-i="g_q3">La Corona</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item wide">
-            <div class="gph" style="min-height:200px"><img class="gph-img" src="quince-4.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🎊</div><div class="gp-text" data-i="g_q4">Toda la Corte</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="quince-5.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🌸</div><div class="gp-text" data-i="g_q5">Jardín</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="quince-6.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">💃</div><div class="gp-text" data-i="g_q6">Primer Vals</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-        </div>
-        <p class="gcaption" data-i="g_quince_caption">Cada sesión única, cada historia inolvidable.</p>
-      </div>
-
-      <!-- SESIONES — replace session-1.jpg etc. -->
-      <div class="gallery-section" id="tab-sessions">
-        <div class="gallery-grid g3">
-          <div class="gallery-item tall">
-            <div class="gph tall-ph"><img class="gph-img" src="session-1.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🌅</div><div class="gp-text" data-i="g_s1">Hora Dorada</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="session-2.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🪴</div><div class="gp-text" data-i="g_s2">Estudio</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="session-3.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🌿</div><div class="gp-text" data-i="g_s3">Luz Natural</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="session-4.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🏙️</div><div class="gp-text" data-i="g_s4">Urbano</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="session-5.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🎓</div><div class="gp-text" data-i="g_s5">Graduación</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-        </div>
-        <p class="gcaption" data-i="g_sessions_caption">Sesiones personalizadas alrededor de tu estilo y visión.</p>
-      </div>
-
-      <!-- BEBÉ — replace baby-1.jpg etc. -->
-      <div class="gallery-section" id="tab-baby">
-        <div class="gallery-grid g3">
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="baby-1.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">👶</div><div class="gp-text" data-i="g_b1">Envuelto</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item tall">
-            <div class="gph tall-ph"><img class="gph-img" src="baby-2.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🍼</div><div class="gp-text" data-i="g_b2">Canasta</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="baby-3.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🌙</div><div class="gp-text" data-i="g_b3">Dormilon</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="baby-4.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🎂</div><div class="gp-text" data-i="g_b4">Primer Pastel</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="baby-5.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🧸</div><div class="gp-text" data-i="g_b5">6 Meses</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-        </div>
-        <p class="gcaption" data-i="g_baby_caption">Delicado y tierno — capturando el milagro de la nueva vida.</p>
-      </div>
-
-      <!-- FAMILIA — replace family-1.jpg etc. -->
-      <div class="gallery-section" id="tab-family">
-        <div class="gallery-grid g3">
-          <div class="gallery-item wide">
-            <div class="gph" style="min-height:220px"><img class="gph-img" src="family-1.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">👨‍👩‍👧‍👦</div><div class="gp-text" data-i="g_f1">Atardecer</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item tall">
-            <div class="gph tall-ph"><img class="gph-img" src="family-2.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🤗</div><div class="gp-text" data-i="g_f2">Espontáneo</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="family-3.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🌳</div><div class="gp-text" data-i="g_f3">Parque</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="family-4.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">❤️</div><div class="gp-text" data-i="g_f4">Mini Festiva</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-          <div class="gallery-item">
-            <div class="gph"><img class="gph-img" src="family-5.jpg" alt="" onerror="this.style.display='none'"/><div class="gph-fallback"><div class="gp-icon">🎄</div><div class="gp-text" data-i="g_f5">Navidad</div></div></div>
-            <div class="goverlay"><div class="goverlay-icon">+</div></div></div>
-        </div>
-        <p class="gcaption" data-i="g_family_caption">Retratos familiares llenos de risas, calidez y conexión real.</p>
-      </div>
-    </div>
-    <footer><div class="footer-logo">Saul <span>Captures</span></div><ul class="footer-links"><li><a onclick="showPage('home')" data-i="nav_home">Inicio</a></li><li><a onclick="showPage('pricing')" data-i="nav_pricing">Precios</a></li><li><a onclick="showPage('faq')" data-i="nav_faq">FAQ</a></li><li><a onclick="showPage('contact')" data-i="nav_book">Reservar</a></li></ul><div class="footer-social"><a href="https://www.instagram.com/fotografonyc1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="https://www.tiktok.com/@saultemifotos" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z"/></svg></a></div><p class="footer-copy" data-i="footer_copy">© 2025 Saul Captures · Todos los derechos reservados</p></footer>
-  </div>
-
-  <!-- PRICING — compact header -->
-  <div class="page" id="page-pricing">
-    <div class="page-header compact"><p class="eyebrow" data-i="pricing_eyebrow">Inversión</p><h2 class="pg-title" data-i="pricing_title">Precios Simples y Transparentes</h2><div class="divider"></div><p class="pg-desc" data-i="pricing_desc">Cada paquete está diseñado cuidadosamente — sin costos ocultos, sin sorpresas.</p></div>
-    <div class="pricing-wrap">
-      <div class="pricing-grid">
-        <div class="pricing-card reveal d1"><p class="p-session" data-i="pkg1_type">Sesión de Retrato</p><h3 class="p-name" data-i="pkg1_name">Esencial</h3><div class="p-price"><sup>$</sup>150</div><p class="p-note" data-i="pkg1_note">Precio inicial · 1 hora</p><div class="p-div"></div><ul class="p-features"><li data-i="f1_1">Sesión de 1 hora</li><li data-i="f1_2">1 locación</li><li data-i="f1_3">1 cambio de ropa</li><li data-i="f1_4">15 fotos digitales editadas</li><li data-i="f1_5">Galería en línea</li><li data-i="f1_6">Entrega en 2 semanas</li></ul><button class="p-cta" onclick="showPage('contact')" data-i="pkg_btn">Reservar este Paquete</button></div>
-        <div class="pricing-card featured reveal d2"><div class="p-badge" data-i="popular_badge">Más Popular</div><p class="p-session" data-i="pkg2_type">Familia / Quinceañera</p><h3 class="p-name" data-i="pkg2_name">Signature</h3><div class="p-price"><sup>$</sup>350</div><p class="p-note" data-i="pkg2_note">Precio inicial · 2–3 horas</p><div class="p-div"></div><ul class="p-features"><li data-i="f2_1">Sesión de 2–3 horas</li><li data-i="f2_2">Hasta 2 locaciones</li><li data-i="f2_3">Múltiples cambios de ropa</li><li data-i="f2_4">40 fotos digitales editadas</li><li data-i="f2_5">Galería privada en línea</li><li data-i="f2_6">Entrega en 1 semana</li><li data-i="f2_7">1 impresión 8×10 incluida</li></ul><button class="p-cta" onclick="showPage('contact')" data-i="pkg_btn">Reservar este Paquete</button></div>
-        <div class="pricing-card reveal d3"><p class="p-session" data-i="pkg3_type">Recién Nacido / Bebé</p><h3 class="p-name" data-i="pkg3_name">Newborn</h3><div class="p-price"><sup>$</sup>250</div><p class="p-note" data-i="pkg3_note">Precio inicial · Hasta 2 horas</p><div class="p-div"></div><ul class="p-features"><li data-i="f3_1">Sesión delicada de hasta 2 horas</li><li data-i="f3_2">Estudio o en casa</li><li data-i="f3_3">Múltiples poses y envoltorios</li><li data-i="f3_4">25 fotos digitales editadas</li><li data-i="f3_5">Galería privada en línea</li><li data-i="f3_6">Entrega en 10 días</li><li data-i="f3_7">Fotos con hermanos/padres incluidas</li></ul><button class="p-cta" onclick="showPage('contact')" data-i="pkg_btn">Reservar este Paquete</button></div>
-      </div>
-      <div class="extras reveal">
-        <h3 class="extras-title" data-i="extras_title">Servicios Adicionales</h3>
-        <table class="extras-table">
-          <tr><td data-i="ex1">Foto editada adicional</td><td>$8 c/u</td></tr>
-          <tr><td data-i="ex2">Entrega urgente (48–72 horas)</td><td>$75</td></tr>
-          <tr><td data-i="ex3">Hora extra de sesión</td><td>$100</td></tr>
-          <tr><td data-i="ex4">Viaje (más de 30 millas)</td><td>$0.65/milla</td></tr>
-          <tr><td data-i="ex5">Impresión 8×10</td><td>$20</td></tr>
-          <tr><td data-i="ex6">Impresión en lienzo (16×20)</td><td>$85</td></tr>
-          <tr><td data-i="ex7">Mini sesión festiva (30 min)</td><td>$100</td></tr>
-        </table>
-        <p class="p-footnote"><span data-i="extras_note">Todos los precios son iniciales.</span> <a onclick="showPage('contact')" data-i="extras_link">Contáctanos para paquetes personalizados.</a></p>
-      </div>
-    </div>
-    <footer><div class="footer-logo">Saul <span>Captures</span></div><ul class="footer-links"><li><a onclick="showPage('home')" data-i="nav_home">Inicio</a></li><li><a onclick="showPage('gallery')" data-i="nav_gallery">Galería</a></li><li><a onclick="showPage('faq')" data-i="nav_faq">FAQ</a></li><li><a onclick="showPage('contact')" data-i="nav_book">Reservar</a></li></ul><div class="footer-social"><a href="https://www.instagram.com/fotografonyc1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="https://www.tiktok.com/@saultemifotos" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z"/></svg></a></div><p class="footer-copy" data-i="footer_copy">© 2025 Saul Captures · Todos los derechos reservados</p></footer>
-  </div>
-
-  <!-- FAQ -->
-  <div class="page" id="page-faq">
-    <div class="page-header"><p class="eyebrow" data-i="faq_eyebrow">Preguntas Frecuentes</p><h2 class="pg-title" data-i="faq_title">Preguntas Frecuentes</h2><div class="divider"></div><p class="pg-desc" data-i="faq_desc">Todo lo que necesitas saber antes de reservar tu sesión.</p></div>
-    <div class="faq-wrap">
-      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq1_q">¿Cómo reservo una sesión?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq1_a">Simplemente llena el formulario de contacto. Responderé en 24–48 horas para confirmar tu fecha y enviarte el acuerdo de reserva. Se requiere un depósito para asegurar tu fecha.</p></div></div>
-      <div class="faq-item reveal d1"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq2_q">¿Con cuánto tiempo de anticipación debo reservar?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq2_a">Para sesiones de retrato recomiendo 3–4 semanas de anticipación, y 2–3 meses para quinceañeras. Para recién nacidos, lo ideal es reservar durante el segundo trimestre.</p></div></div>
-      <div class="faq-item reveal d2"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq3_q">¿Dónde será la sesión?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq3_a">La sesión puede ser en el lugar que prefieras. Pueden aplicar tarifas de viaje más de 30 millas.</p></div></div>
-      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq4_q">¿Cuándo recibiré mis fotos?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq4_a">La mayoría de las sesiones se entregan en 1–2 semanas vía galería privada en línea.</p></div></div>
-      <div class="faq-item reveal d1"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq5_q">¿Qué debemos usar?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq5_a">Enviaré una guía de estilo personalizada después de reservar. Lo más importante — usa algo que te haga sentir con confianza.</p></div></div>
-      <div class="faq-item reveal d2"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq6_q">¿Qué pasa si llueve o necesitamos reagendar?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq6_a">Si necesitamos reagendar por el tiempo, encontraré una nueva fecha sin costo adicional. Para otros cambios, pido al menos 48 horas de aviso.</p></div></div>
-      <div class="faq-item reveal"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq7_q">¿Fotografías el evento Y los retratos de quinceañera?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq7_a">¡Sí! Ofrezco sesiones formales de retratos y cobertura completa del festejo. Contáctame y construimos el paquete perfecto.</p></div></div>
-      <div class="faq-item reveal d1"><div class="faq-q" onclick="toggleFaq(this)"><h3 data-i="faq8_q">¿Ofrecen planes de pago?</h3><div class="faq-icon">+</div></div><div class="faq-a"><p data-i="faq8_a">Un depósito del 50% asegura tu fecha, y el saldo restante se paga el día de la sesión.</p></div></div>
-    </div>
-    <footer><div class="footer-logo">Saul <span>Captures</span></div><ul class="footer-links"><li><a onclick="showPage('home')" data-i="nav_home">Inicio</a></li><li><a onclick="showPage('gallery')" data-i="nav_gallery">Galería</a></li><li><a onclick="showPage('pricing')" data-i="nav_pricing">Precios</a></li><li><a onclick="showPage('contact')" data-i="nav_book">Reservar</a></li></ul><div class="footer-social"><a href="https://www.instagram.com/fotografonyc1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="https://www.tiktok.com/@saultemifotos" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z"/></svg></a></div><p class="footer-copy" data-i="footer_copy">© 2025 Saul Captures · Todos los derechos reservados</p></footer>
-  </div>
-
-  <!-- CONTACT -->
-  <div class="page" id="page-contact">
-    <div class="page-header"><p class="eyebrow" data-i="contact_eyebrow">Hablemos</p><h2 class="pg-title" data-i="contact_title">Reserva tu Sesión</h2><div class="divider"></div><p class="pg-desc" data-i="contact_desc">Cuéntame tu visión y te responderé en 24 horas.</p></div>
-    <div class="contact-wrap">
-      <input type="hidden" id="tg_token"   value="8673339576:AAEFAHIjhMJPqxt2MsZX2COrTmaf8Z4b2bs" />
-      <input type="hidden" id="tg_chat_id" value="8139962647" />
-      <form class="contact-form" id="contactForm">
-        <div class="form-row">
-          <div class="form-group"><label class="form-label" data-i="lbl_fname">Nombre</label><input type="text" name="nombre" id="f_fname" class="form-input" placeholder="María" required /></div>
-          <div class="form-group"><label class="form-label" data-i="lbl_lname">Apellido</label><input type="text" name="apellido" id="f_lname" class="form-input" placeholder="González" required /></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label" data-i="lbl_email">Correo</label><input type="email" name="correo" id="f_email" class="form-input" placeholder="maria@ejemplo.com" required /></div>
-          <div class="form-group"><label class="form-label" data-i="lbl_phone">Teléfono</label><input type="tel" name="telefono" id="f_phone" class="form-input" placeholder="(555) 000-0000" /></div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" data-i="lbl_session">Tipo de Sesión</label>
-          <select name="tipo_sesion" id="f_session" class="form-select form-input">
-            <option value="" data-i="session_default">Selecciona un tipo de sesión...</option>
-            <option data-i="session_q_portrait">Sesión de Retrato para Quinceañera</option>
-            <option data-i="session_q_event">Cobertura Completa de Quinceañera</option>
-            <option data-i="session_newborn">Sesión de Recién Nacido / Bebé</option>
-            <option data-i="session_family">Sesión de Retratos Familiares</option>
-            <option data-i="session_portrait">Sesión de Retrato Individual</option>
-            <option data-i="session_mini">Mini Sesión Festiva</option>
-            <option data-i="session_other">Otro / Paquete Personalizado</option>
-          </select>
-        </div>
-        <div class="form-group"><label class="form-label" data-i="lbl_date">Fecha Ideal</label><input type="text" name="fecha" id="f_date" class="form-input" placeholder="ej. Junio 2025, flexible..." /></div>
-        <div class="form-group"><label class="form-label" data-i="lbl_msg">Tu Visión</label><textarea name="mensaje" id="f_msg" class="form-textarea" placeholder="Comparte detalles — lugar, número de personas, solicitudes especiales..."></textarea></div>
-        <button type="button" class="form-submit" id="submitBtn" onclick="handleSubmit()">
-          <span class="spinner"></span><span class="btn-text" data-i="contact_submit">Enviar mi Solicitud →</span>
-        </button>
-      </form>
-      <div class="form-success" id="formSuccess"><div class="success-icon">✦</div><h3 class="success-title" data-i="success_title">¡Mensaje Enviado!</h3><p class="success-sub" data-i="success_sub">Gracias por tu solicitud. Te responderemos en las próximas 24–48 horas para confirmar todos los detalles de tu sesión.</p></div>
-      <div class="form-error-msg" id="formError" data-i="error_msg">Hubo un problema al enviar. Por favor intenta de nuevo.</div>
-      <div class="contact-info">
-        <div class="ci"><span class="ci-label">Instagram</span><span class="ci-value"><a href="https://www.instagram.com/fotografonyc1/" target="_blank">@fotografonyc1</a></span></div>
-        <div class="ci"><span class="ci-label">TikTok</span><span class="ci-value"><a href="https://www.tiktok.com/@saultemifotos" target="_blank">@saultemifotos</a></span></div>
-        <div class="ci"><span class="ci-label" data-i="ci_response">Tiempo de Respuesta</span><span class="ci-value" data-i="ci_response_val">En 24–48 horas</span></div>
-      </div>
-    </div>
-    <footer><div class="footer-logo">Saul <span>Captures</span></div><ul class="footer-links"><li><a onclick="showPage('home')" data-i="nav_home">Inicio</a></li><li><a onclick="showPage('gallery')" data-i="nav_gallery">Galería</a></li><li><a onclick="showPage('pricing')" data-i="nav_pricing">Precios</a></li><li><a onclick="showPage('faq')" data-i="nav_faq">FAQ</a></li></ul><div class="footer-social"><a href="https://www.instagram.com/fotografonyc1/" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="https://www.tiktok.com/@saultemifotos" target="_blank"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z"/></svg></a></div><p class="footer-copy" data-i="footer_copy">© 2025 Saul Captures · Todos los derechos reservados</p></footer>
-  </div>
+  <div class="toast" id="toast"></div>
 
   <script>
-  // ── Video autoplay check ──
-  document.addEventListener('DOMContentLoaded',function(){
-    const v=document.getElementById('aboutVideo');
-    if(v){
-      v.style.display='block';
-      v.play().then(()=>{
-        const ph=document.getElementById('aboutVideoPlaceholder');
-        if(ph)ph.style.display='none';
-      }).catch(()=>{v.style.display='none';});
+    // ══════════════════════════════════════
+    //  ↓ PEGA TU FIREBASE URL AQUÍ ↓
+    const DB_URL    = 'https://saulvisuals-6a8c1-default-rtdb.firebaseio.com';
+    //  ↓ CAMBIA EL PIN DE SAUL AQUÍ ↓
+    const ADMIN_PIN = '1234';
+    // ══════════════════════════════════════
+
+    const TIMES = ['9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
+    const TYPES = ['Headshots','Baby & Recién Nacido','Familia'];
+    const DOW   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const DOW_FULL = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+
+    let pin = '', avail = {}, selDate = null, editTimes = [], editTypes = [], isAvail = false;
+
+    // ── PIN ──
+    function pinKey(d) {
+      if(pin.length >= 4) return;
+      pin += d; updateDots();
+      if(pin.length === 4) setTimeout(() => {
+        if(pin === ADMIN_PIN) {
+          document.getElementById('pin-screen').style.display = 'none';
+          document.getElementById('app').classList.add('visible');
+          initApp();
+        } else {
+          document.getElementById('pinError').textContent = 'PIN incorrecto';
+          pin = ''; updateDots();
+          setTimeout(() => document.getElementById('pinError').textContent = '', 2000);
+        }
+      }, 120);
     }
-  });
+    function pinDel() { pin = pin.slice(0,-1); updateDots(); }
+    function updateDots() { document.querySelectorAll('.pin-dot').forEach((d,i) => d.classList.toggle('filled', i < pin.length)); }
+    function logout() { pin = ''; updateDots(); document.getElementById('app').classList.remove('visible'); document.getElementById('pin-screen').style.display = 'flex'; }
 
-  // ── Cursor ──
-  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
-  (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
-  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.gallery-item,.faq-q,.gallery-tab')){cursor.style.width='18px';cursor.style.height='18px';ring.style.width='48px';ring.style.height='48px';}});
-  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.gallery-item,.faq-q,.gallery-tab')){cursor.style.width='10px';cursor.style.height='10px';ring.style.width='34px';ring.style.height='34px';}});
+    // ── FIREBASE ──
+    const hasDB = () => true; // Firebase is configured
+    async function dbGet()         { const r = await fetch(`${DB_URL}/availability.json`); return await r.json(); }
+    async function dbSet(d, data)  { await fetch(`${DB_URL}/availability/${d}.json`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) }); }
+    async function dbDel(d)        { await fetch(`${DB_URL}/availability/${d}.json`, { method:'DELETE' }); }
 
-  // ── Nav scroll ──
-  window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50));
-
-  // ── Mobile menu ──
-  let menuOpen=false;
-  function toggleMenu(){
-    menuOpen=!menuOpen;
-    const menu=document.getElementById('mobileMenu'),ham=document.getElementById('hamburger');
-    ham.classList.toggle('open',menuOpen);
-    if(menuOpen){menu.style.display='flex';document.body.style.overflow='hidden';requestAnimationFrame(()=>menu.classList.add('open'));}
-    else closeMenu();
-  }
-  function closeMenu(){
-    menuOpen=false;
-    const menu=document.getElementById('mobileMenu'),ham=document.getElementById('hamburger');
-    menu.classList.remove('open');ham.classList.remove('open');document.body.style.overflow='';
-    setTimeout(()=>{menu.style.display='none';},350);
-  }
-
-  function showPage(id){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.nav-links a[data-page]').forEach(a=>a.classList.remove('active'));
-    const pg=document.getElementById('page-'+id);
-    if(pg){pg.classList.add('active');window.scrollTo({top:0,behavior:'instant'});}
-    const lk=document.querySelector('.nav-links a[data-page="'+id+'"]');
-    if(lk)lk.classList.add('active');
-    if(id==='contact'){
-      document.getElementById('contactForm').style.display='flex';
-      document.getElementById('formSuccess').classList.remove('show');
-      document.getElementById('formError').classList.remove('show');
+    function setBar(state, msg) {
+      const bar = document.getElementById('dbBar'), txt = document.getElementById('dbMsg');
+      bar.className = 'db-bar ' + state;
+      txt.textContent = msg;
     }
-    setTimeout(triggerReveals,60);
-  }
 
-  function triggerReveals(){
-    const els=document.querySelectorAll('.page.active .reveal');
-    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
-    els.forEach(el=>{el.classList.remove('visible');obs.observe(el);});
-  }
-  triggerReveals();
-
-  function switchTab(id,btn){
-    document.querySelectorAll('.gallery-section').forEach(s=>s.classList.remove('active'));
-    document.querySelectorAll('.gallery-tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('tab-'+id).classList.add('active'); btn.classList.add('active');
-  }
-
-  function toggleFaq(el){
-    const item=el.closest('.faq-item'),isOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
-    if(!isOpen)item.classList.add('open');
-  }
-
-  async function handleSubmit(){
-    const form=document.getElementById('contactForm'),btn=document.getElementById('submitBtn');
-    const successEl=document.getElementById('formSuccess'),errorEl=document.getElementById('formError');
-    const isES=document.documentElement.lang==='es';
-    const token=document.getElementById('tg_token').value.trim();
-    const chat_id=document.getElementById('tg_chat_id').value.trim();
-    const fname=document.getElementById('f_fname').value.trim();
-    const email=document.getElementById('f_email').value.trim();
-    if(!fname||!email){errorEl.textContent=isES?'Por favor completa nombre y correo electrónico.':'Please fill in your name and email.';errorEl.classList.add('show');return;}
-    errorEl.classList.remove('show');
-    btn.classList.add('loading');btn.disabled=true;
-    const lname=document.getElementById('f_lname').value.trim();
-    const phone=document.getElementById('f_phone').value.trim();
-    const session=document.getElementById('f_session').value;
-    const date=document.getElementById('f_date').value.trim();
-    const msg=document.getElementById('f_msg').value.trim();
-    const text=isES
-      ? 'Nueva Solicitud - Saul Captures\n\nNombre: '+fname+' '+lname+'\nCorreo: '+email+'\n'+(phone?'Telefono: '+phone+'\n':'')+'Sesion: '+(session||'No especificado')+'\nFecha: '+(date||'No especificado')+(msg?'\n\nMensaje:\n'+msg:'')
-      : 'New Inquiry - Saul Captures\n\nName: '+fname+' '+lname+'\nEmail: '+email+'\n'+(phone?'Phone: '+phone+'\n':'')+'Session: '+(session||'Not specified')+'\nDate: '+(date||'Not specified')+(msg?'\n\nMessage:\n'+msg:'');
-    try{
-      const res=await fetch('https://api.telegram.org/bot'+token+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id,text,parse_mode:''})});
-      const result=await res.json();
-      if(result.ok){form.style.display='none';successEl.classList.add('show');form.reset();}
-      else throw new Error(result.description||'error');
-    }catch(err){errorEl.textContent=isES?'Hubo un problema al enviar. Por favor intenta de nuevo.':'Something went wrong. Please try again.';errorEl.classList.add('show');}
-    finally{btn.classList.remove('loading');btn.disabled=false;}
-  }
-
-  const T={
-    es:{nav_home:'Inicio',nav_gallery:'Galería',nav_pricing:'Precios',nav_faq:'FAQ',nav_book:'Reservar',menu_close:'Cerrar ✕',
-      hero_eyebrow:'Fotografía de Retratos y Estilo de Vida',hero_title_em:'Cuenta una Historia',
-      hero_sub:'Quinceañeras · Sesiones · Recién Nacidos · Retratos Familiares',
-      hero_btn1:'Ver Galería',hero_btn2:'Reservar Sesión',scroll_label:'Deslizar',
-      about_eyebrow:'Sobre Saul',about_title:'Capturando Tus Momentos<br/>Más Preciados',
-      about_p1:'Creo que cada familia, cada logro, cada risa merece ser preservada con intención y arte.',
-      about_p2:'Trabajando con luz natural y un amor genuino por las personas, creo imágenes que se sienten eternas.',
-      about_btn:'Explorar la Galería',about_photo_ph:'Tu retrato aquí',
-      stat1:'Sesiones Completadas',stat2:'Satisfacción',stat3:'Especialidades',stat4:'Años de Experiencia',
-      gallery_eyebrow:'Portafolio',gallery_title:'La Galería',gallery_desc:'Una selección de sesiones — navega por categoría abajo.',
-      tab_quince:'Quinceañeras',tab_sessions:'Sesiones',tab_baby:'Bebé',tab_family:'Familia',
-      g_q1:'Retrato de Vestido',g_q2:'Detalle Floral',g_q3:'La Corona',g_q4:'Toda la Corte',g_q5:'Jardín',g_q6:'Primer Vals',
-      g_quince_caption:'Cada sesión única, cada historia inolvidable.',
-      g_s1:'Hora Dorada',g_s2:'Estudio',g_s3:'Luz Natural',g_s4:'Urbano',g_s5:'Graduación',
-      g_sessions_caption:'Sesiones personalizadas alrededor de tu estilo y visión.',
-      g_b1:'Envuelto',g_b2:'Canasta',g_b3:'Dormilon',g_b4:'Primer Pastel',g_b5:'6 Meses',
-      g_baby_caption:'Delicado y tierno — capturando el milagro de la nueva vida.',
-      g_f1:'Atardecer',g_f2:'Espontáneo',g_f3:'Parque',g_f4:'Mini Festiva',g_f5:'Navidad',
-      g_family_caption:'Retratos familiares llenos de risas, calidez y conexión real.',
-      pricing_eyebrow:'Inversión',pricing_title:'Precios Simples y Transparentes',pricing_desc:'Sin costos ocultos, sin sorpresas.',
-      pkg1_type:'Sesión de Retrato',pkg1_name:'Esencial',pkg1_note:'Precio inicial · 1 hora',
-      f1_1:'Sesión de 1 hora',f1_2:'1 locación',f1_3:'1 cambio de ropa',f1_4:'15 fotos digitales editadas',f1_5:'Galería en línea',f1_6:'Entrega en 2 semanas',
-      pkg2_type:'Familia / Quinceañera',pkg2_name:'Signature',pkg2_note:'Precio inicial · 2–3 horas',
-      f2_1:'Sesión de 2–3 horas',f2_2:'Hasta 2 locaciones',f2_3:'Múltiples cambios de ropa',f2_4:'40 fotos digitales editadas',f2_5:'Galería privada en línea',f2_6:'Entrega en 1 semana',f2_7:'1 impresión 8×10 incluida',
-      pkg3_type:'Recién Nacido / Bebé',pkg3_name:'Newborn',pkg3_note:'Precio inicial · Hasta 2 horas',
-      f3_1:'Sesión delicada de hasta 2 horas',f3_2:'Estudio o en casa',f3_3:'Múltiples poses y envoltorios',f3_4:'25 fotos digitales editadas',f3_5:'Galería privada en línea',f3_6:'Entrega en 10 días',f3_7:'Fotos con hermanos/padres incluidas',
-      popular_badge:'Más Popular',pkg_btn:'Reservar este Paquete',
-      extras_title:'Servicios Adicionales',
-      ex1:'Foto editada adicional',ex2:'Entrega urgente (48–72 horas)',ex3:'Hora extra de sesión',ex4:'Viaje (más de 30 millas)',ex5:'Impresión 8×10',ex6:'Impresión en lienzo (16×20)',ex7:'Mini sesión festiva (30 min)',
-      extras_note:'Todos los precios son iniciales.',extras_link:'Contáctanos para paquetes personalizados.',
-      faq_eyebrow:'Preguntas Frecuentes',faq_title:'Preguntas Frecuentes',faq_desc:'Todo lo que necesitas saber antes de reservar.',
-      faq1_q:'¿Cómo reservo una sesión?',faq1_a:'Llena el formulario de contacto. Responderé en 24–48 horas para confirmar tu fecha.',
-      faq2_q:'¿Con cuánto tiempo de anticipación debo reservar?',faq2_a:'3–4 semanas para retratos, 2–3 meses para quinceañeras, segundo trimestre para recién nacidos.',
-      faq3_q:'¿Dónde será la sesión?',faq3_a:'Donde prefieras. Aplican tarifas de viaje más de 30 millas.',
-      faq4_q:'¿Cuándo recibiré mis fotos?',faq4_a:'1–2 semanas vía galería privada en línea.',
-      faq5_q:'¿Qué debemos usar?',faq5_a:'Enviaré una guía de estilo. Lo más importante — usa algo que te haga sentir con confianza.',
-      faq6_q:'¿Qué pasa si llueve o necesitamos reagendar?',faq6_a:'Encuentro nueva fecha sin costo por el tiempo. Otros cambios requieren 48 horas de aviso.',
-      faq7_q:'¿Fotografías el evento Y los retratos?',faq7_a:'¡Sí! Ofrezco sesiones formales y cobertura completa del festejo.',
-      faq8_q:'¿Ofrecen planes de pago?',faq8_a:'50% de depósito asegura tu fecha, saldo el día de la sesión.',
-      contact_eyebrow:'Hablemos',contact_title:'Reserva tu Sesión',contact_desc:'Cuéntame tu visión y te responderé en 24 horas.',
-      lbl_fname:'Nombre',lbl_lname:'Apellido',lbl_email:'Correo',lbl_phone:'Teléfono',
-      lbl_session:'Tipo de Sesión',lbl_date:'Fecha Ideal',lbl_msg:'Tu Visión',
-      session_default:'Selecciona un tipo de sesión...',session_q_portrait:'Sesión de Retrato para Quinceañera',
-      session_q_event:'Cobertura Completa de Quinceañera',session_newborn:'Sesión de Recién Nacido / Bebé',
-      session_family:'Sesión de Retratos Familiares',session_portrait:'Sesión de Retrato Individual',
-      session_mini:'Mini Sesión Festiva',session_other:'Otro / Paquete Personalizado',
-      contact_submit:'Enviar mi Solicitud →',
-      success_title:'¡Mensaje Enviado!',success_sub:'Gracias. Te responderemos en 24–48 horas.',
-      error_msg:'Hubo un problema al enviar. Por favor intenta de nuevo.',
-      ci_response:'Tiempo de Respuesta',ci_response_val:'En 24–48 horas',
-      footer_copy:'© 2025 Saul Captures · Todos los derechos reservados'
-    },
-    en:{nav_home:'Home',nav_gallery:'Gallery',nav_pricing:'Pricing',nav_faq:'FAQ',nav_book:'Book Now',menu_close:'Close ✕',
-      hero_eyebrow:'Portrait & Lifestyle Photography',hero_title_em:'Tells a Story',
-      hero_sub:'Quinceañeras · Sessions · Newborns · Family Portraits',
-      hero_btn1:'View Gallery',hero_btn2:'Book a Session',scroll_label:'Scroll',
-      about_eyebrow:'About Saul',about_title:'Capturing Your Most<br/>Precious Moments',
-      about_p1:"I believe every family, every milestone, every laugh deserves to be preserved with intention and artistry.",
-      about_p2:"Working with natural light and a genuine love for people, I create images that feel timeless.",
-      about_btn:'Explore the Gallery',about_photo_ph:'Your portrait here',
-      stat1:'Sessions Completed',stat2:'Satisfaction',stat3:'Specialties',stat4:'Years of Experience',
-      gallery_eyebrow:'Portfolio',gallery_title:'The Gallery',gallery_desc:'A curated selection — browse by category below.',
-      tab_quince:'Quinceañeras',tab_sessions:'Sessions',tab_baby:'Baby',tab_family:'Family',
-      g_q1:'Gown Portrait',g_q2:'Florals Detail',g_q3:'Crown Moment',g_q4:'Full Court',g_q5:'Garden',g_q6:'First Dance',
-      g_quince_caption:'Each session unique, each story unforgettable.',
-      g_s1:'Golden Hour',g_s2:'Studio',g_s3:'Natural Light',g_s4:'Urban',g_s5:'Graduation',
-      g_sessions_caption:'Personalized sessions crafted around your style and vision.',
-      g_b1:'Newborn Wrap',g_b2:'Basket',g_b3:'Sleepy',g_b4:'Cake Smash',g_b5:'6 Months',
-      g_baby_caption:'Gentle and tender — capturing the miracle of new life.',
-      g_f1:'Sunset',g_f2:'Candid',g_f3:'Park',g_f4:'Holiday Mini',g_f5:'Christmas',
-      g_family_caption:'Family portraits full of laughter, warmth, and real connection.',
-      pricing_eyebrow:'Investment',pricing_title:'Simple, Transparent Pricing',pricing_desc:'No hidden fees, no surprises.',
-      pkg1_type:'Portrait Session',pkg1_name:'Essential',pkg1_note:'Starting price · 1 hour',
-      f1_1:'1-hour session',f1_2:'1 location',f1_3:'1 outfit change',f1_4:'15 edited digital photos',f1_5:'Online gallery',f1_6:'2-week turnaround',
-      pkg2_type:'Family / Quinceañera',pkg2_name:'Signature',pkg2_note:'Starting price · 2–3 hours',
-      f2_1:'2–3 hour session',f2_2:'Up to 2 locations',f2_3:'Multiple outfit changes',f2_4:'40 edited digital photos',f2_5:'Private online gallery',f2_6:'1-week turnaround',f2_7:'1 printed 8×10 included',
-      pkg3_type:'Newborn / Baby',pkg3_name:'Newborn',pkg3_note:'Starting price · Up to 2 hours',
-      f3_1:'Up to 2-hour gentle session',f3_2:'Studio or in-home',f3_3:'Multiple setups & wraps',f3_4:'25 edited digital photos',f3_5:'Private online gallery',f3_6:'10-day turnaround',f3_7:'Sibling/parent photos included',
-      popular_badge:'Most Popular',pkg_btn:'Book This Package',
-      extras_title:'À La Carte Add-Ons',
-      ex1:'Additional edited photo',ex2:'Rush delivery (48–72 hrs)',ex3:'Extra hour of shooting',ex4:'Travel fee (30+ miles)',ex5:'8×10 print',ex6:'Canvas print (16×20)',ex7:'Holiday mini session (30 min)',
-      extras_note:'All prices are starting rates.',extras_link:'Contact us for custom packages.',
-      faq_eyebrow:'Common Questions',faq_title:'Frequently Asked Questions',faq_desc:'Everything you need to know before booking.',
-      faq1_q:'How do I book?',faq1_a:"Fill out the contact form. I'll respond within 24–48 hours to confirm your date.",
-      faq2_q:'How far in advance should I book?',faq2_a:"3–4 weeks for portraits, 2–3 months for quinceañeras, second trimester for newborns.",
-      faq3_q:'Where will the session take place?',faq3_a:'Anywhere that feels meaningful. Travel fees apply beyond 30 miles.',
-      faq4_q:'When will I receive my photos?',faq4_a:'1–2 weeks via private online gallery.',
-      faq5_q:'What should we wear?',faq5_a:"I'll send a style guide. Most importantly, wear something that makes you feel confident.",
-      faq6_q:'What if it rains or we need to reschedule?',faq6_a:"I'll find a new date at no charge for weather. Other changes need 48 hours notice.",
-      faq7_q:'Do you shoot events AND portraits?',faq7_a:"Yes! Both formal portraits and full event coverage.",
-      faq8_q:'Do you offer payment plans?',faq8_a:"50% deposit secures your date, balance due the day of your session.",
-      contact_eyebrow:"Let's Connect",contact_title:'Book Your Session',contact_desc:"Tell me your vision and I'll respond within 24 hours.",
-      lbl_fname:'First Name',lbl_lname:'Last Name',lbl_email:'Email',lbl_phone:'Phone',
-      lbl_session:'Session Type',lbl_date:'Ideal Date',lbl_msg:'Your Vision',
-      session_default:'Select a session type...',session_q_portrait:'Quinceañera Portrait Session',
-      session_q_event:'Quinceañera Full Event Coverage',session_newborn:'Newborn / Baby Session',
-      session_family:'Family Portrait Session',session_portrait:'Individual Portrait Session',
-      session_mini:'Holiday Mini Session',session_other:'Other / Custom Package',
-      contact_submit:'Send My Inquiry →',
-      success_title:'Message Sent!',success_sub:"Thank you! We'll be in touch within 24–48 hours.",
-      error_msg:'Something went wrong. Please try again.',
-      ci_response:'Response Time',ci_response_val:'Within 24–48 hours',
-      footer_copy:'© 2025 Saul Captures · All rights reserved'
+    // ── INIT ──
+    async function initApp() {
+      if(!hasDB()) { setBar('warn','Base de datos no configurada — sigue las instrucciones arriba'); renderCal(); return; }
+      document.getElementById('setupBanner').style.display = 'none';
+      setBar('warn','Cargando...');
+      try { avail = (await dbGet()) || {}; setBar('ok','✓ Conectado — cambios en tiempo real'); }
+      catch(e) { setBar('err','Error de conexión — revisa la URL de Firebase'); }
+      renderCal();
     }
-  };
 
-  let currentLang='es';
-  function setLang(lang){
-    currentLang=lang; document.documentElement.lang=lang;
-    ['btn-es','btn-en','mbtn-es','mbtn-en'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',id.includes(lang));});
-    const t=T[lang];
-    document.querySelectorAll('[data-i]').forEach(el=>{
-      const key=el.getAttribute('data-i');
-      if(t[key]===undefined)return;
-      if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')return;
-      el.innerHTML=t[key];
-    });
-    const h1=document.querySelector('.hero-title');
-    if(h1)h1.innerHTML=(lang==='es'?'Cada Foto<br/>':'Every Frame<br/>')+'<em data-i="hero_title_em">'+t.hero_title_em+'</em>';
-    const phs={f_fname:lang==='es'?'María':'Maria',f_lname:lang==='es'?'González':'Gonzalez',
-      f_email:lang==='es'?'maria@ejemplo.com':'maria@example.com',f_phone:'(555) 000-0000',
-      f_date:lang==='es'?'ej. Junio 2025, flexible...':'e.g. June 2025, flexible...',
-      f_msg:lang==='es'?'Comparte detalles — lugar, número de personas, solicitudes especiales...':'Share details — location, number of people, special requests...'};
-    Object.entries(phs).forEach(([id,ph])=>{const el=document.getElementById(id);if(el)el.placeholder=ph;});
-  }
+    // ── CALENDAR ──
+    function toStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 
-  document.getElementById('btn-es').classList.add('active');
-  document.getElementById('mbtn-es').classList.add('active');
-  const homeLink=document.querySelector('.nav-links a[data-page="home"]');
-  if(homeLink)homeLink.classList.add('active');
+    function renderCal() {
+      const root = document.getElementById('calRoot'); root.innerHTML = '';
+      const today = new Date(); today.setHours(0,0,0,0);
+      for(let m=0; m<3; m++) {
+        const first = new Date(today.getFullYear(), today.getMonth()+m, 1);
+        const block = document.createElement('div'); block.className='month-block';
+        const title = document.createElement('div'); title.className='month-title';
+        title.textContent = `${MESES[first.getMonth()]} ${first.getFullYear()}`;
+        block.appendChild(title);
+        const grid = document.createElement('div'); grid.className='cal-grid';
+        DOW.forEach(d => { const el=document.createElement('div'); el.className='cal-dow'; el.textContent=d; grid.appendChild(el); });
+        for(let i=0; i<first.getDay(); i++) { const el=document.createElement('div'); el.className='cal-day empty'; grid.appendChild(el); }
+        const days = new Date(first.getFullYear(), first.getMonth()+1, 0).getDate();
+        for(let day=1; day<=days; day++) {
+          const date = new Date(first.getFullYear(), first.getMonth(), day);
+          const ds = toStr(date);
+          const isPast = date < today, isTod = date.getTime()===today.getTime(), isAv = !!avail[ds];
+          const el = document.createElement('div'); el.className='cal-day';
+          if(isPast) el.classList.add('past');
+          else { if(isAv) el.classList.add('available'); if(isTod) el.classList.add('today'); el.onclick=()=>openSheet(ds,date); }
+          el.textContent = day; grid.appendChild(el);
+        }
+        block.appendChild(grid); root.appendChild(block);
+      }
+    }
+
+    // ── SHEET ──
+    function openSheet(ds, dateObj) {
+      selDate = ds;
+      const ex = avail[ds];
+      isAvail = !!ex;
+      editTimes = ex ? [...(ex.times||[])] : [];
+      editTypes = ex ? [...(ex.types||[])] : [];
+      document.getElementById('sheetDate').textContent = `${DOW_FULL[dateObj.getDay()]}, ${dateObj.getDate()} de ${MESES[dateObj.getMonth()]}`;
+      document.getElementById('clearBtn').style.display = isAvail ? 'block' : 'none';
+      refreshToggle(); buildChips();
+      document.getElementById('overlay').classList.add('open');
+      document.getElementById('sheet').classList.add('open');
+    }
+    function closeSheet() {
+      document.getElementById('overlay').classList.remove('open');
+      document.getElementById('sheet').classList.remove('open');
+      selDate = null;
+    }
+    function toggleAvail() { isAvail=!isAvail; refreshToggle(); }
+    function refreshToggle() {
+      document.getElementById('availToggle').classList.toggle('on',isAvail);
+      document.getElementById('toggleLabel').textContent = isAvail ? 'Disponible' : 'No disponible';
+      document.getElementById('slotsSection').style.display = isAvail?'block':'none';
+      document.getElementById('typesSection').style.display = isAvail?'block':'none';
+    }
+    function buildChips() {
+      const tc=document.getElementById('timeChips'), tyc=document.getElementById('typeChips');
+      tc.innerHTML=''; tyc.innerHTML='';
+      TIMES.forEach(t => {
+        const c=document.createElement('button'); c.className='chip'+(editTimes.includes(t)?' on':''); c.textContent=t;
+        c.onclick=()=>{ editTimes.includes(t)?editTimes.splice(editTimes.indexOf(t),1):editTimes.push(t); c.classList.toggle('on'); };
+        tc.appendChild(c);
+      });
+      TYPES.forEach(t => {
+        const c=document.createElement('button'); c.className='chip'+(editTypes.includes(t)?' on':''); c.textContent=t;
+        c.onclick=()=>{ editTypes.includes(t)?editTypes.splice(editTypes.indexOf(t),1):editTypes.push(t); c.classList.toggle('on'); };
+        tyc.appendChild(c);
+      });
+    }
+
+    async function saveDay() {
+      // Validation — don't save if available but nothing selected
+      if(isAvail && editTimes.length === 0) { toast('Selecciona al menos un horario','red'); return; }
+      if(isAvail && editTypes.length === 0) { toast('Selecciona al menos un tipo de sesión','red'); return; }
+
+      const btn=document.getElementById('saveBtn'); btn.classList.add('loading'); btn.disabled=true;
+      try {
+        if(isAvail) { const d={times:editTimes,types:editTypes}; if(hasDB())await dbSet(selDate,d); avail[selDate]=d; toast('✓ Guardado','green'); }
+        else        { if(hasDB())await dbDel(selDate); delete avail[selDate]; toast('Día sin disponibilidad',''); }
+        renderCal(); closeSheet();
+      } catch(e) { toast(hasDB()?'Error al guardar':'Configura Firebase para guardar','red'); }
+      finally { btn.classList.remove('loading'); btn.disabled=false; }
+    }
+    async function clearDay() {
+      const btn=document.getElementById('saveBtn'); btn.classList.add('loading'); btn.disabled=true;
+      try { if(hasDB())await dbDel(selDate); delete avail[selDate]; renderCal(); closeSheet(); toast('Disponibilidad eliminada',''); }
+      catch(e){ toast('Error','red'); }
+      finally { btn.classList.remove('loading'); btn.disabled=false; }
+    }
+
+    function toast(msg, type) {
+      const t=document.getElementById('toast'); t.textContent=msg;
+      t.className='toast'+(type?' '+type:''); t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),2800);
+    }
   </script>
 </body>
 </html>
